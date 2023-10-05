@@ -69,8 +69,8 @@ body {
 
 .wheel-inner {
     position: absolute;
-    width: 4vh;
-    height: 4vh;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     background: #808080;
 }
