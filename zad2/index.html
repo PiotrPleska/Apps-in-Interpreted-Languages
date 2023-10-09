@@ -12,21 +12,6 @@
  <body>
     <h1 class="display-1 font-weight-bold text-center">My Notes</h1>
 
-    <div class="container mt-5">
-        <h2 class="text-center">Filter by date</h2>
-        <form id="filterForm">
-            <div class="form-group">
-                <label for="startDate">Start Date:</label>
-                <input type="date" id="startDate" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="endDate">End date:</label>
-                <input type="date" id="endDate" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-primary">Filter</button>
-        </form>
-    </div>
-
     <div id="tableDiv">
         <div class="table-responsive">
             <table class="table table-sm table-dark">
@@ -60,6 +45,19 @@
     <div class="search">
         <label>Search</label>
         <input type="text" id = "inputSearch" placeholder="Type Your seach here..."/>
+        <div class="container mt-5">
+            <h2 class="text-center">Filter by date</h2>
+            <form id="filterForm">
+                <div class="form-group">
+                    <label for="startDate">Start Date:</label>
+                    <input type="date" id="startDate" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="endDate">End date:</label>
+                    <input type="date" id="endDate" class="form-control">
+                </div>
+            </form>
+        </div>
         <div id="searchTableDiv" class="search-table"></div>
         <div class="table table-success table-striped">
         <table border="2">

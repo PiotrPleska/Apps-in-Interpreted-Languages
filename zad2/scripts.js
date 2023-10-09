@@ -32,6 +32,8 @@ const updateTodoList = function() {
     const tableBody = $("#todoListView")[0];
     const filterInput = $("#inputSearch")[0];
     const listOfSearch = $("#listOfSearch")[0];
+    const startDate = $("#startDate")[0];
+    const endDate = $("#endDate")[0];
     if (tableBody.childElementCount === 0) {
         // Hide the tableDiv
         $("#tableDiv")[0].style.display = 'none';
@@ -49,13 +51,18 @@ const updateTodoList = function() {
         const todo = todoList[index];
          let row =  createTodoRow(todo,index)
         //add to table
-        tableBody.appendChild(row)
+        tableBody.append(row)
 
         // Filter the data
-        if (todo.title.includes(filterInput.value) && filterInput.value !== "") {
+        if (todo.title.includes(filterInput.value) && filterInput.value !== "" && startDate.value ==="" && endDate.value ==="") {
                 row = createTodoRow(todo);
-            listOfSearch.appendChild(row);
+            listOfSearch.append(row);
         }
+        //           TU TRZEBA JAKIES WARUNKI WYMYSLEC
+        // else if(todo.dueDate.getDate() > startDate && todo.dueDate.getDate() < endDate){
+        //     row = createTodoRow(todo);
+        //     listOfSearch.append(row);
+        // }
     }
     updateJSONbin();
 };
@@ -117,14 +124,6 @@ initList();
 // Periodically update the todo list
 setInterval(updateTodoList, 1000);
 function createTodoRow(todo,index) {
-    // const row = document.createElement('tr');
-    // row.innerHTML = `
-    //   <td>${todo.title}</td>
-    //   <td>${todo.description}</td>
-    //   <td>${todo.place}</td>
-    //   <td>${todo.dueDate}</td>
-    //   <td><input class="btn btn-light" type="button" value="x" onclick="deleteTodo(${index}); updateTodoList();"></td>
-    // `;
     var row = $("<tr>");
 
 // Tworzenie komórek td i przypisanie im zawartości
@@ -142,15 +141,3 @@ function createTodoRow(todo,index) {
     row.append($("<td>").append(deleteButton));
     return row[0];
   }
-
-$(document).ready(function() {
-    $("#filterForm").submit(function(event) {
-        event.preventDefault();
-        let startDate = $("#startDate").val();
-        let endDate = $("#endDate").val();
-
-
-
-
-    });
-});
