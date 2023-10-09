@@ -29,62 +29,43 @@ const handleAjaxError = function(err) {
 };
 
 const updateTodoList = function() {
-    const todoListDiv = document.getElementById("todoListView");
+    const tableBody = document.getElementById("todoListView")
     const filterInput = document.getElementById("inputSearch");
     const listOfSearch = document.getElementById("listOfSearch");
+    if (tableBody.childElementCount === 0) {
+        // Hide the tableDiv
+        document.getElementById("tableDiv").style.display = 'none';
+      } else {
+        // Show the tableDiv
+        document.getElementById("tableDiv").style.display = 'block'; // or your desired display style
+      }
 
     // Remove all elements
-    clearElementChildren(todoListDiv);
+    clearElementChildren(tableBody);
     clearElementChildren(listOfSearch);
 
     // Add all elements
     for (let index in todoList) {
         const todo = todoList[index];
-        const newElement = document.createElement("div");
-        const newContent = document.createTextNode(
-            `${todo.title} ${todo.description} ${todo.place} ${todo.dueDate}`
-        );
-
-        newElement.appendChild(newContent);
-        todoListDiv.appendChild(newElement);
-
-        // Delete button
-        const newDeleteButton = document.createElement("input");
-        newDeleteButton.type = "button";
-        newDeleteButton.value = "x";
-
-        // Use a closure to capture the current index
-        newDeleteButton.addEventListener("click", function() {
-            deleteTodo(index);
-            updateTodoList(); // Call updateTodoList after modification
-        });
-
-        newElement.appendChild(newDeleteButton);
-        todoListDiv.appendChild(newElement);
+         let row =  createTodoRow(todo,index)
+        //add to table
+        tableBody.appendChild(row)
 
         // Filter the data
         if (todo.title.includes(filterInput.value) && filterInput.value !== "") {
-            const searchResult = document.createElement("div");
-            const resultContent = document.createTextNode(
-                `${todo.title} ${todo.description} ${todo.place} ${todo.dueDate}`
-            );
-
-            searchResult.appendChild(resultContent);
-            listOfSearch.appendChild(searchResult);
+                row = createTodoRow(todo);
+            listOfSearch.appendChild(row);
         }
     }
-
     updateJSONbin();
 };
 
 const clearElementChildren = function(element) {
-    while (element.firstChild) {
-        element.removeChild(element.firstChild);
-    }
+    element.innerHTML='';
 };
 
 const deleteTodo = function(index) {
-    todoList.splice(index, 1);
+    todoList.splice(index, 1); 
 };
 
 const addTodo = function() {
@@ -135,3 +116,14 @@ initList();
 
 // Periodically update the todo list
 setInterval(updateTodoList, 1000);
+function createTodoRow(todo,index) {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${todo.title}</td>
+      <td>${todo.description}</td>
+      <td>${todo.place}</td>
+      <td>${todo.dueDate}</td>
+      <td><input type="button" value="x" onclick="deleteTodo(${index}); updateTodoList();"></td>
+    `;
+    return row;
+  }
