@@ -1,0 +1,25 @@
+.table {
+    margin: 20px;
+}
+
+.form {
+    margin: 20px;
+}
+
+.search {
+    margin: 20px;
+}
+
+.search-table {
+    margin: 20px;
+}
+
+table {
+    border-collapse: collapse; /* Żeby linie łączyły się */
+    width: 100%; /* Szerokość tabeli (opcjonalne) */
+}
+
+table, th, td {
+    border: 1px solid #000; /* Dodaje cienkie linie wokół każdej komórki i nagłówka */
+    padding: 8px; /* Dodaje odstęp wewnątrz komórek (opcjonalne) */
+}
