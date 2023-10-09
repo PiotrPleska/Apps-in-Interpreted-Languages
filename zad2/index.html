@@ -3,14 +3,16 @@
  <head>
    <link rel="stylesheet" 
 type="text/css" href="theme.css">
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
    <script src="scripts.js"></script>
 <title>MyTODO App</title>
  </head>
  <body>
     <h1>My Notes</h1>
     <div id = "tableDiv">
-      <table border="1">
+      <table border="1" class="table table-striped">
          <thead>
            <tr>
              <th>Title</th>
@@ -25,6 +27,7 @@ type="text/css" href="theme.css">
          </tbody>
        </table>
     </div>
+    <div class="inputArea">
     <form>
         <label>Title</label>
         <input type="text" id="inputTitle"/>
@@ -34,14 +37,16 @@ type="text/css" href="theme.css">
         <input type="text" id="inputPlace"/>
         <label>Due date</label>
         <input type="date" id="inputDate"/>
-        <input type="button" value="add"
+        <input type="button" class="btn btn-success"value="add"
         onclick="addTodo()"/>
     </form>
-    <div>
+  </div>
+    <div class = "searchArea">
         <label>Search</label>
         <input type="text" id = "inputSearch" placeholder="Type Your seach here..."/>
-        <div id="searchTableDiv" ></div>
-        <table border="2">
+        <p>Lista wyszukanych</p>
+        <div id="searchTableDiv" >
+        <table border="2" class="table">
          <thead>
            <tr>
              <th>Title</th>
@@ -55,6 +60,7 @@ type="text/css" href="theme.css">
            <!-- Table rows will be added here dynamically -->
          </tbody>
        </table>
+      </div>
     </div>
  </body>
 </html>

@@ -39,6 +39,13 @@ const updateTodoList = function() {
         // Show the tableDiv
         document.getElementById("tableDiv").style.display = 'block'; // or your desired display style
       }
+      if (listOfSearch.childElementCount === 0) {
+        // Hide the tableDiv
+        document.getElementById("searchTableDiv").style.display = 'none';
+      } else {
+        // Show the tableDiv
+        document.getElementById("searchTableDiv").style.display = 'block'; // or your desired display style
+      }
 
     // Remove all elements
     clearElementChildren(tableBody);
@@ -53,7 +60,8 @@ const updateTodoList = function() {
 
         // Filter the data
         if (todo.title.includes(filterInput.value) && filterInput.value !== "") {
-                row = createTodoRow(todo);
+               let row = createTodoRow(todo);
+               row.classList.add('info');
             listOfSearch.appendChild(row);
         }
     }
@@ -123,7 +131,7 @@ function createTodoRow(todo,index) {
       <td>${todo.description}</td>
       <td>${todo.place}</td>
       <td>${todo.dueDate}</td>
-      <td><input type="button" value="x" onclick="deleteTodo(${index}); updateTodoList();"></td>
+      <td><input type="button" value="x" class="btn btn-success " onclick="deleteTodo(${index}); updateTodoList();"></td>
     `;
     return row;
   }
