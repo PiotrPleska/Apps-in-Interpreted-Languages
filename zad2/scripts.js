@@ -85,7 +85,7 @@ const addTodo = function() {
     const newTitle = inputTitle.value;
     const newDescription = inputDescription.value;
     const newPlace = inputPlace.value;
-    const newDate = new Date(inputDate.value);
+    const newDate = inputDate.value;
 
     // Create new item
     const newTodo = {
