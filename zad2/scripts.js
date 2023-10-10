@@ -1,8 +1,8 @@
 "use strict";
 
 let todoList = [];
-const BASE_URL = "https://api.jsonbin.io/v3/b/6521673c12a5d37659888771";
-const SECRET_KEY = "$2a$10$LnI/PWHTHeLvdeSZKB4JOuulFrF4ppPOQnYBl63ouzV22PcVgCIjC";
+const BASE_URL = "https://api.jsonbin.io/v3/b/65240ee054105e766fbfe40d";
+const SECRET_KEY = "$2a$10$RoPadWb/CJdzVHS3sO3ki.s3gaWiABZ6sY5KoRW4Ml38Q1qLcnyOK";
 
 const initList = function() {
     $.ajax({
@@ -29,22 +29,17 @@ const handleAjaxError = function(err) {
 };
 
 const updateTodoList = function() {
-    const tableBody = document.getElementById("todoListView")
-    const filterInput = document.getElementById("inputSearch");
-    const listOfSearch = document.getElementById("listOfSearch");
+    const tableBody = $("#todoListView")[0];
+    const filterInput = $("#inputSearch")[0];
+    const listOfSearch = $("#listOfSearch")[0];
+    const startDate = $("#startDate")[0];
+    const endDate = $("#endDate")[0];
     if (tableBody.childElementCount === 0) {
         // Hide the tableDiv
-        document.getElementById("tableDiv").style.display = 'none';
+        $("#tableDiv")[0].style.display = 'none';
       } else {
         // Show the tableDiv
-        document.getElementById("tableDiv").style.display = 'block'; // or your desired display style
-      }
-      if (listOfSearch.childElementCount === 0) {
-        // Hide the tableDiv
-        document.getElementById("searchTableDiv").style.display = 'none';
-      } else {
-        // Show the tableDiv
-        document.getElementById("searchTableDiv").style.display = 'block'; // or your desired display style
+        $("#tableDiv")[0].style.display = 'block'; // or your desired display style
       }
 
     // Remove all elements
@@ -56,14 +51,18 @@ const updateTodoList = function() {
         const todo = todoList[index];
          let row =  createTodoRow(todo,index)
         //add to table
-        tableBody.appendChild(row)
+        tableBody.append(row)
 
         // Filter the data
-        if (todo.title.includes(filterInput.value) && filterInput.value !== "") {
-               let row = createTodoRow(todo);
-               row.classList.add('info');
-            listOfSearch.appendChild(row);
+        if (todo.title.includes(filterInput.value) && filterInput.value !== "" && (startDate.value ==="" || endDate.value ==="")) {
+                row = createTodoRow(todo);
+            listOfSearch.append(row);
         }
+        //           TU TRZEBA JAKIES WARUNKI WYMYSLEC
+         else if(todo.dueDate >= startDate.value && todo.dueDate <= endDate.value && todo.title.includes(filterInput.value) && filterInput.value !== ""){
+             row = createTodoRow(todo);
+             listOfSearch.append(row);
+         }
     }
     updateJSONbin();
 };
@@ -78,10 +77,10 @@ const deleteTodo = function(index) {
 
 const addTodo = function() {
     // Get the elements in the form
-    const inputTitle = document.getElementById("inputTitle");
-    const inputDescription = document.getElementById("inputDescription");
-    const inputPlace = document.getElementById("inputPlace");
-    const inputDate = document.getElementById("inputDate");
+    const inputTitle = $("#inputTitle")[0];
+    const inputDescription = $("#inputDescription")[0];
+    const inputPlace = $("#inputPlace")[0];
+    const inputDate = $("#inputDate")[0];
 
     // Get the values from the form
     const newTitle = inputTitle.value;
@@ -125,13 +124,20 @@ initList();
 // Periodically update the todo list
 setInterval(updateTodoList, 1000);
 function createTodoRow(todo,index) {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${todo.title}</td>
-      <td>${todo.description}</td>
-      <td>${todo.place}</td>
-      <td>${todo.dueDate}</td>
-      <td><input type="button" value="x" class="btn btn-success " onclick="deleteTodo(${index}); updateTodoList();"></td>
-    `;
-    return row;
+    var row = $("<tr>");
+
+// Tworzenie komórek td i przypisanie im zawartości
+    row.append(`<td>${todo.title}</td>`);
+    row.append(`<td>${todo.description}</td>`);
+    row.append(`<td>${todo.place}</td>`);
+    row.append(`<td>${todo.dueDate}</td>`);
+
+// Tworzenie przycisku i przypisanie obsługi kliknięcia
+    var deleteButton = $("<input>").addClass("btn btn-light").attr("type", "button").val("x");
+    deleteButton.on("click", function() {
+        deleteTodo(index);
+        updateTodoList();
+    });
+    row.append($("<td>").append(deleteButton));
+    return row[0];
   }
