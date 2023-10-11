@@ -19,6 +19,8 @@ const initList = function() {
 const handleInitListSuccess = function(data) {
     if (data !== undefined) {
         todoList = data.record;
+        updateTodoList();
+        updateTodoList();
     } else {
         console.log("Data is undefined. Check the server response.");
     }
@@ -71,7 +73,8 @@ const clearElementChildren = function(element) {
 };
 
 const deleteTodo = function(index) {
-    todoList.splice(index, 1); 
+    todoList.splice(index, 1);
+    updateTodoList();
 };
 
 const addTodo = function() {
@@ -97,6 +100,7 @@ const addTodo = function() {
 
     // Add item to the list
     todoList.push(newTodo);
+    updateTodoList();
 };
 
 const updateJSONbin = function() {
@@ -121,7 +125,7 @@ const handleUpdateJsonSuccess = function(data) {
 initList();
 
 // Periodically update the todo list
-setInterval(updateTodoList, 1000);
+// setInterval(updateTodoList, 1000);
 function createTodoRow(todo,index) {
     var row = $("<tr>");
 

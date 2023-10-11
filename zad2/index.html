@@ -45,6 +45,7 @@
     <div class="search">
         <label>Search</label>
         <input type="text" id = "inputSearch" placeholder="Type Your seach here..."/>
+        <button type="button" class="btn btn-secondary" onclick="updateTodoList()">Filter</button>
         <div class="container mt-5">
             <h2 class="text-center">Filter by date</h2>
             <form id="filterForm">
@@ -60,7 +61,7 @@
         </div>
         <div id="searchTableDiv" class="search-table"></div>
         <div class="table table-success table-striped">
-        <table border="2">
+        <table>
          <thead>
            <tr>
              <th>Title</th>
