@@ -1,6 +1,6 @@
 <template>
   <div class="MoviesByCast">
-    <h1>{{ msg }}</h1>
+    <h1>Filmy wg obsady</h1>
   </div>
 </template>
 

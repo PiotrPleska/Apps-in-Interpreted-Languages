@@ -1,6 +1,6 @@
 <template>
   <div class="MoviesByGenres">
-    <h1>{{ msg }}</h1>
+    <h1>Filmy wg gatunku</h1>
   </div>
 </template>
 
