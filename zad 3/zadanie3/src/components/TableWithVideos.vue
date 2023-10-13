@@ -1,33 +1,75 @@
 <template>
   <div class="TableWithVideos">
-    <table class="table-condensed table-hover">
+    <table class="table table-bordered table-hover">
       <thead>
       <tr>
-        <th>Title</th>
-        <th>Production Year</th>
-        <th>Cast</th>
-        <th>Genres</th>
+        <th>Nr filmu</th>
+        <th>Tytuł</th>
+        <th>Rok produkcji</th>
+        <th>Obsada</th>
+        <th>Gatunki</th>
+        <th>Opis</th>
+        <th>Plakat</th>
       </tr>
       </thead>
       <tbody>
-      <tr>
-<!--      <tr v-for="movie in movies">-->
-        <td>Placeholder movie.title</td>
-        <td>Placeholder movie.year</td>
-        <td>Placeholder movie.cast</td>
-        <td>Placeholder movie.genres</td>
+      <tr v-for="(movie, index) in displayedMovies" :key="index">
+        <td>{{ index + 1 }}.</td>
+        <td>{{ movie.title }}</td>
+        <td>{{ movie.year }}</td>
+        <td>{{ movie.cast.join(', ') }}</td>
+        <td>{{ movie.genres.join(', ') }}</td>
+        <td>{{movie.extract}}</td>
+        <td>
+          <img :src="movie.thumbnail" :width="movie.thumbnail_width" :height="movie.thumbnail_height" />
+        </td>
       </tr>
       </tbody>
     </table>
+    <button @click="showMore">Pokaż więcej</button>
   </div>
 </template>
 
 <script>
 export default {
-  name: "TableWithVideos"
-}
+  name: "TableWithVideos",
+  data() {
+    return {
+      movies: [], // Tu przechowujemy wszystkie filmy z pliku JSON
+      displayedMovies: [], // Filmy do wyświetlenia
+      itemsPerPage: 10, // Ilość filmów na stronie
+      currentPage: 1,
+    };
+  },
+  mounted() {
+    // Tutaj można wczytać dane z pliku JSON i przypisać je do this.movies
+    // Przykład: this.movies = require('./movies.json');
+    // Pamiętaj, żeby dostosować ścieżkę do swojego pliku JSON
+    this.loadMovies();
+  },
+  methods: {
+    loadMovies() {
+      // Wczytaj dane z pliku JSON przy użyciu względnej ścieżki wewnątrz projektu Vue.js
+      fetch("/data/movies.json") // Zakładając, że plik JSON jest w katalogu public/data/
+          .then((response) => response.json())
+          .then((data) => {
+            this.movies = data;
+            this.updateDisplayedMovies();
+          })
+          .catch((error) => {
+            console.error("Błąd wczytywania danych:", error);
+          });
+    },
+    updateDisplayedMovies() {
+      // Aktualizacja wyświetlanych filmów na podstawie bieżącej strony i ilości filmów na stronie;
+      const end = this.itemsPerPage*this.currentPage;
+      this.displayedMovies = this.movies.slice(0, end);
+    },
+    showMore() {
+      // Obsługa przycisku "Pokaż więcej"
+      this.currentPage++; // Przejdź do kolejnej strony
+      this.updateDisplayedMovies(); // Zaktualizuj wyświetlane filmy
+    },
+  },
+};
 </script>
-
-<style scoped>
-
-</style>
