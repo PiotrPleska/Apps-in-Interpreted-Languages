@@ -52,6 +52,11 @@ export default {
   },
   mounted() {
     this.emitter.on("filteredMovies", (data) => {
+<<<<<<< HEAD
+=======
+      // alert(data)
+      console.log("a")
+>>>>>>> 58eee9ca83a90b9a553c7ce8f9325544b15c4d5e
       this.movies = data;
       this.updateDisplayedMovies();
     });

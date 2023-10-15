@@ -3,8 +3,8 @@
   <div id="App">
     <SearchMovies/>
     <TableWithVideos/>
-    <MoviesByCast/>
     <MoviesByGenres/>
+    <MoviesByCast/>
   </div>
 </template>
 
