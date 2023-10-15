@@ -22,7 +22,7 @@
         <input v-model="searchCriteria.cast" type="text" id="inputCast" class="form-control" placeholder="Imię i nazwisko">
       </div>
       <div class="form-group row">
-        <button class="btn btn-info col-sm-12" @click="searchMovies()">Szukaj</button>
+        <button class="btn btn-info col-sm-12" type="button" @click="searchMovies()">Szukaj</button>
       </div>
     </form>
   </div>
