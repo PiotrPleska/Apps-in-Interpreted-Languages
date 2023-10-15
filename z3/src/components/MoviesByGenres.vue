@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import _ from "underscore"; // Import biblioteki Underscore.js
+
 export default {
   name: "MoviesByGenres",
   data() {
@@ -24,23 +26,19 @@ export default {
   },
   computed: {
     uniqueGenres() {
-      // Uzyskaj unikalne gatunki filmów
-      const genres = new Set();
-      this.movies.forEach((movie) => {
-        movie.genres.forEach((genre) => {
-          genres.add(genre);
-        });
-      });
-      return Array.from(genres);
+      const genres = _.chain(this.movies)
+          .map("genres")
+          .flatten()
+          .uniq()
+          .value();
+      return genres;
     },
   },
   methods: {
     moviesByGenre(genre) {
-      // Filtruj filmy danego gatunku
-      return this.movies.filter((movie) => movie.genres.includes(genre));
+      return _.filter(this.movies, (movie) => _.contains(movie.genres, genre));
     },
     loadMoviesFromJson() {
-      // Wczytaj dane z pliku JSON
       fetch("/data/movies.json")
           .then((response) => response.json())
           .then((data) => {
