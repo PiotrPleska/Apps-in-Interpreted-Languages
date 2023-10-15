@@ -70,9 +70,9 @@ export default {
       });
 
       // Aktualizacja wyświetlanych filmów
-      const filteredMoviesStr = JSON.stringify(filteredMovies, null, 2);
+      //const filteredMoviesStr = JSON.stringify(filteredMovies, null, 2);
 
-      this.emitter.emit("filteredMovies", filteredMoviesStr);
+      this.emitter.emit("filteredMovies", filteredMovies);
 
 
     }
