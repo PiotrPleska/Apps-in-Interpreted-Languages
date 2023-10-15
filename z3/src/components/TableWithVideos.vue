@@ -52,7 +52,6 @@ export default {
   },
   mounted() {
     this.emitter.on("filteredMovies", (data) => {
-      alert(data)
       this.movies = data;
       this.updateDisplayedMovies();
     });
