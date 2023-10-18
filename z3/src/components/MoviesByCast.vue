@@ -19,39 +19,40 @@ import _ from "underscore"; // Import biblioteki Underscore.js
 
 export default {
   name: "MoviesByCast",
+  props:{
+    movies :Array
+  },
   data() {
     return {
-      movies: [], // Tablica filmów z pliku JSON
+      localMovies: [], // Tablica filmów z pliku JSON
     };
   },
   computed: {
     uniqueCast() {
-      const cast = _.chain(this.movies)
+      const cast = _.chain(this.localMovies)
           .map("cast")
           .flatten()
           .uniq()
+          .sort()
           .value();
       return cast;
     },
   },
   methods: {
     moviesByCast(cast) {
-      return _.filter(this.movies, (movie) => _.contains(movie.cast, cast));
+      const movies = _.filter(this.localMovies, (movie) => _.contains(movie.cast, cast));
+      return _.sortBy(movies,'title');
     },
-    loadMoviesFromJson() {
-      fetch("/data/movies.json")
-          .then((response) => response.json())
-          .then((data) => {
-            const first100Movies = data.slice(200, 300);
-            this.movies = first100Movies;
-          })
-          .catch((error) => {
-            console.error("Błąd wczytywania danych:", error);
-          });
+    sliceMovies() {
+    
+            const first100Movies = this.movies.slice(200, 300);
+            this.localMovies = first100Movies;
+      
     },
   },
   mounted() {
-    this.loadMoviesFromJson();
+    this.localMovies = this.movies;
+    this.sliceMovies();
   },
 };
 </script>

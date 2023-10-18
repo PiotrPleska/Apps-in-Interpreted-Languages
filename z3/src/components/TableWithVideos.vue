@@ -32,58 +32,56 @@
       </tr>
       </tbody>
     </table>
-    <button @click="showMore">Pokaż więcej</button>
+    <div class="form-group row">
+    <button class="btn btn-info col-sm-4"  @click="showMore">Pokaż więcej</button>
+    <span class="info-text col-sm-4 text-center" style="font-weight: bold;">Liczba filmów: {{ this.displayedMovies.length }}/{{ this.localMovies.length }}</span>
+    <button class="btn btn-info col-sm-4"  @click="reset">RESET</button>
+  </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "TableWithVideos",
+  props: {
+    movies :Array
+  },
   data() {
     return {
-      movies: [], // Tu przechowujemy wszystkie filmy z pliku JSON
+      localMovies: [],
       displayedMovies: [], // Filmy do wyświetlenia
       itemsPerPage: 10, // Ilość filmów na stronie
       currentPage: 1,
     };
   },
-  created() {
-    this.loadMovies();
-  },
+  
   mounted() {
+    //alert("table"+this.movies);
+    this.localMovies = this.movies;
+    this.updateDisplayedMovies();
     this.emitter.on("filteredMovies", (data) => {
-<<<<<<< HEAD
-=======
       // alert(data)
-      console.log("a")
->>>>>>> 58eee9ca83a90b9a553c7ce8f9325544b15c4d5e
-      this.movies = data;
+      this.localMovies = data;
       this.updateDisplayedMovies();
     });
   },
 
   methods: {
-
-    loadMovies() {
-      // Wczytaj dane z pliku JSON przy użyciu względnej ścieżki wewnątrz projektu Vue.js
-      fetch("/data/movies.json") // Zakładając, że plik JSON jest w katalogu public/data/
-          .then((response) => response.json())
-          .then((data) => {
-            this.movies = data;
-            this.updateDisplayedMovies();
-          })
-          .catch((error) => {
-            console.error("Błąd wczytywania danych:", error);
-          });
-    },
     updateDisplayedMovies() {
       // Aktualizacja wyświetlanych filmów na podstawie bieżącej strony i ilości filmów na stronie;
       const end = this.itemsPerPage*this.currentPage;
-      this.displayedMovies = this.movies.slice(0, end);
+      this.displayedMovies = this.localMovies.slice(0, end);
     },
     showMore() {
+      //localMovies to wszystkie 
       // Obsługa przycisku "Pokaż więcej"
       this.currentPage++; // Przejdź do kolejnej strony
+      this.updateDisplayedMovies(); // Zaktualizuj wyświetlane filmy
+    },
+    reset() {
+      //localMovies to wszystkie 
+      // Obsługa przycisku "Pokaż więcej"
+      this.currentPage = 1; // Przejdź do kolejnej strony
       this.updateDisplayedMovies(); // Zaktualizuj wyświetlane filmy
     },
   },

@@ -19,39 +19,39 @@ import _ from "underscore"; // Import biblioteki Underscore.js
 
 export default {
   name: "MoviesByGenres",
+  props:{
+    movies:Array
+  },
   data() {
     return {
-      movies: [], // Tablica filmów z pliku JSON
+      localMovies: [], // Tablica filmów z pliku JSON
     };
   },
   computed: {
     uniqueGenres() {
-      const genres = _.chain(this.movies)
+      const genres = _.chain(this.localMovies)
           .map("genres")
           .flatten()
           .uniq()
+          .sort()
           .value();
       return genres;
     },
   },
   methods: {
     moviesByGenre(genre) {
-      return _.filter(this.movies, (movie) => _.contains(movie.genres, genre));
+      const movies = _.filter(this.localMovies, (movie) => _.contains(movie.genres, genre));
+      const sort_movies = _.sortBy(movies,'title')
+      return  sort_movies
     },
-    loadMoviesFromJson() {
-      fetch("/data/movies.json")
-          .then((response) => response.json())
-          .then((data) => {
-            const first100Movies = data.slice(0, 100);
-            this.movies = first100Movies;
-          })
-          .catch((error) => {
-            console.error("Błąd wczytywania danych:", error);
-          });
-    },
+    sliceMovies() {
+            const first100Movies = this.movies.slice(0, 100);
+            this.localMovies = first100Movies; 
+          }
   },
   mounted() {
-    this.loadMoviesFromJson();
+    this.localMovies = this.movies;
+    this.sliceMovies();
   },
 };
 </script>
