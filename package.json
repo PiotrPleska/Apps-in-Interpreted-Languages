@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/PiotrPleska/Apps-in-Interpreted-Languages#readme",
   "dependencies": {
+    "axios": "^1.5.1",
     "underscore": "^1.13.6"
   }
 }
