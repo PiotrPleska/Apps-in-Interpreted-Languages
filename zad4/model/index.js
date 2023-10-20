@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const mysql = require('mysql2');
 
+app.use(express.json());
+
 // Połączenie z bazą danych
 const db = mysql.createConnection({
     host: 'localhost',
@@ -37,7 +39,7 @@ app.get('/products', (req, res) => {
 // 2. GET app_url/products/id - zwraca dane produktu o konkretnym identyfikatorze
 app.get('/products/:id', (req, res) => {
     const productId = req.params.id;
-    const query = 'SELECT * FROM products WHERE id = ?';
+    const query = 'SELECT * FROM produkt WHERE idProdukt = ?';
 
     db.query(query, [productId], (err, results) => {
         if (err) {
@@ -119,7 +121,7 @@ app.put('/products/:id', (req, res) => {
 
     values.push(productId);
 
-    const query = `UPDATE produkt SET ${updateFields.join(', ')} WHERE id = ?`;
+    const query = `UPDATE produkt SET ${updateFields.join(', ')} WHERE idProdukt = ?`;
 
     db.query(query, values, (err, results) => {
         if (err) {
