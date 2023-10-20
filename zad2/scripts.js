@@ -56,11 +56,11 @@ const updateTodoList = function() {
         tableBody.append(row)
 
         // Filter the data
-        if (todo.title.includes(filterInput.value) && filterInput.value !== "" && (startDate.value ==="" && endDate.value ==="")) {
+        if (todo.title.toLowerCase().includes(filterInput.value.toLowerCase()) && filterInput.value !== "" && (startDate.value ==="" && endDate.value ==="")) {
                 row = createTodoRow(todo);
             listOfSearch.append(row);
         }
-         else if((todo.dueDate >= startDate.value || startDate.value === "")  && (todo.dueDate <=endDate.value || endDate.value === "") && todo.title.includes(filterInput.value) && filterInput.value !== ""){
+         else if((todo.dueDate >= startDate.value || startDate.value === "")  && (todo.dueDate <=endDate.value || endDate.value === "") && todo.title.toLowerCase().includes(filterInput.value.toLowerCase()) && filterInput.value !== ""){
              row = createTodoRow(todo);
              listOfSearch.append(row);
          }
