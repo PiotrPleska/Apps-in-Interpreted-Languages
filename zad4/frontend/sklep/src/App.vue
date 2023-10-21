@@ -1,48 +1,51 @@
 <template>
   <p>Sklep internetowy</p>
-  <div id ="App">
-    <TableWithProducts :products="products"/>
-    <FilterProducts :products="products"/>
-    <OrderForm/>
+  <div id="App">
+    <TableWithProducts :products="products" />
+    <FilterProducts :products="products" />
+    <OrderForm />
   </div>
 </template>
 
 <script>
-import FilterProducts from './components/FilterProducts.vue';
-import TableWithProducts from './components/TableWithProducts.vue'
-import OrderForm from  './components/OrderForm.vue'
-const axios = require('axios');
+import axios from "axios"; // Dodaj import Axios
+import FilterProducts from "./components/FilterProducts.vue";
+import TableWithProducts from "./components/TableWithProducts.vue";
+import OrderForm from "./components/OrderForm.vue";
 
 export default {
-  name: 'App',
-  
+  name: "App",
+
   data() {
     return {
-      products: [] 
+      products: [],
     };
   },
 
   components: {
     TableWithProducts,
     FilterProducts,
-    OrderForm
-},
-mounted(){
-  this.getProducts();
-},
-methods:{
-getProducts(){
-axios.get('http://localhost:3000/products')
-     .then(response => {
-         this.products = response.data;
-         alert(this.products);
-     })
-     .catch(error => {
-         console.error('Błąd:', error);
-     });
-}
-},
-}
+    OrderForm,
+  },
+
+  methods: {
+    getProducts() {
+      axios
+        .get("http://localhost:3000/products")
+        .then((response) => {
+          this.products = response.data;
+          alert(this.products);
+        })
+        .catch((error) => {
+          console.error("Błąd pobierania z bazy:", error);
+        });
+    },
+  },
+
+  mounted() {
+    this.getProducts();
+  },
+};
 </script>
 
 <style>

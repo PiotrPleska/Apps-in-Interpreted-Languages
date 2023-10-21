@@ -1,16 +1,17 @@
+const cors = require('cors'); 
 const express = require('express');
 const app = express();
 const mysql = require('mysql2');
 
-  
+
 app.use(express.json());
-// Enable CORS for all origins
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    next();
-  });
+app.use(cors()); 
 
 
+
+app.listen(3000, () => {
+    console.log('Serwer nasłuchuje na porcie 3000');
+});
 // Połączenie z bazą danych
 const db = mysql.createConnection({
     host: 'localhost',
@@ -27,6 +28,10 @@ db.connect(err => {
         console.log('Połączono z bazą danych');
     }
 });
+
+
+
+
 
 //PRODUKT
 //1. GET app_url/products - zwraca wszystkie produkty
@@ -254,6 +259,8 @@ app.get('/status', (req, res) => {
     });
 });
 
-app.listen(3000, () => {
-    console.log('Serwer nasłuchuje na porcie 3000');
-});
+app.use((req, res, next) => {
+    res.status(404).send('Nie znaleziono strony ;((');
+  });
+  
+ 
