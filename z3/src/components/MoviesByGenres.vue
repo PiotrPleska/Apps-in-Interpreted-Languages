@@ -41,8 +41,7 @@ export default {
   methods: {
     moviesByGenre(genre) {
       const movies = _.filter(this.localMovies, (movie) => _.contains(movie.genres, genre));
-      const sort_movies = _.sortBy(movies,'title')
-      return  sort_movies
+      return  _.sortBy(movies,'title')
     },
     sliceMovies() {
             const first100Movies = this.movies.slice(0, 100);

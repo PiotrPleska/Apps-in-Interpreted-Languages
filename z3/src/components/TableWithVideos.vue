@@ -1,6 +1,6 @@
 <template>
   <div class="TableWithVideos">
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover responsived-table">
       <thead>
       <tr>
         <th>Nr filmu</th>
