@@ -9,6 +9,14 @@ export default {
     props: {
       products: Array // Tablica produktow
   },
+  data() {
+    return {
+      products_copy :[]  // Declare the movies array in the data section
+    };
+  },
+  mounted(){
+    this.products_copy = this.products;
+  }
 
 }
 </script>

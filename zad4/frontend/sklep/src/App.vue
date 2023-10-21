@@ -1,8 +1,8 @@
 <template>
   <p>Sklep internetowy</p>
   <div id ="App">
-    <TableWithProducts/>
-    <FilterProducts/>
+    <TableWithProducts :products="products"/>
+    <FilterProducts :products="products"/>
     <OrderForm/>
   </div>
 </template>
@@ -11,13 +11,14 @@
 import FilterProducts from './components/FilterProducts.vue';
 import TableWithProducts from './components/TableWithProducts.vue'
 import OrderForm from  './components/OrderForm.vue'
+const axios = require('axios');
 
 export default {
   name: 'App',
   
   data() {
     return {
-      movies: []  // Declare the movies array in the data section
+      products: [] 
     };
   },
 
@@ -25,7 +26,22 @@ export default {
     TableWithProducts,
     FilterProducts,
     OrderForm
+},
+mounted(){
+  this.getProducts();
+},
+methods:{
+getProducts(){
+axios.get('http://localhost:3000/products')
+     .then(response => {
+         this.products = response.data;
+         alert(this.products);
+     })
+     .catch(error => {
+         console.error('Błąd:', error);
+     });
 }
+},
 }
 </script>
 

@@ -2,7 +2,14 @@ const express = require('express');
 const app = express();
 const mysql = require('mysql2');
 
+  
 app.use(express.json());
+// Enable CORS for all origins
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+  });
+
 
 // Połączenie z bazą danych
 const db = mysql.createConnection({
