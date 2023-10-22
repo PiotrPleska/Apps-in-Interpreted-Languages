@@ -38,10 +38,25 @@ export default {
       }
     };
   },
+  watch: {
+  products_copy_table: {
+    immediate: true, // Handle initial value
+    handler(produkt) {
+      if (produkt >= 0) {
+        alert("win")
+        this.loadData();
+      }
+    }
+  }
+},
   
   methods: {
     async loadData() {
-      this.filtered_products = this.products_copy_table;
+      try {
+        this.filtered_products = this.products_copy_table;
+      } catch (error) {
+        console.error("Błąd: ", error);
+      }
     },
     
     searchProducts() {
@@ -57,18 +72,6 @@ export default {
     reset() {
       this.filtered_products = this.products_copy_table;
       this.$emit("filteredProducts", this.filtered_products); // Emit the event here
-    }
-  },
- 
-  watch: {
-    products_copy_table: {
-      immediate: true, // Handle initial value
-      deep: true, // Watch for changes inside the array
-      handler(newProducts) {
-        if (Array.isArray(newProducts) && newProducts.length > 0) {
-          this.loadData();
-        }
-      }
     }
   }
 }
