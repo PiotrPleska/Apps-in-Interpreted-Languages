@@ -182,67 +182,135 @@ app.get('/orders', (req, res) => {
 
 
 // 2.POST app_url/orders - dodaje zamówienie (parametry w ciele żądania)
+app.post('/orders', (req, res) => {
+    const { data_zamowienia, nazwa_uzytkownika, email, numer_telefonu, Stan_Zamowienia_idStan_Zamowienia, items } = req.body;
 
+    if (!data_zamowienia || !nazwa_uzytkownika || !email || !numer_telefonu || !Stan_Zamowienia_idStan_Zamowienia || !items || !Array.isArray(items) || items.length === 0) {
+        res.status(400).json({ error: 'Nieprawidłowe dane zamówienia' });
+        return;
+    }
 
-//              PRZYKLAD WYGENEROWANY PRZEZ CHAT
-// app.post('/orders', (req, res) => {
-//     const { customer, items } = req.body;
-//
-//     if (!customer || !items || !Array.isArray(items) || items.length === 0) {
-//         res.status(400).json({ error: 'Nieprawidłowe dane zamówienia' });
-//         return;
-//     }
-//
-//     db.beginTransaction(err => {
-//         if (err) {
-//             res.status(500).json({ error: 'Błąd transakcji' });
-//             return;
-//         }
-//
-//         // Dodaj zamówienie do tabeli `orders`
-//         const orderQuery = 'INSERT INTO orders (customer) VALUES (?)';
-//         db.query(orderQuery, [customer], (orderErr, orderResult) => {
-//             if (orderErr) {
-//                 db.rollback(() => {
-//                     res.status(500).json({ error: 'Błąd dodawania zamówienia' });
-//                 });
-//                 return;
-//             }
-//
-//             const orderId = orderResult.insertId;
-//
-//             // Dodaj produkty do tabeli `order_items`
-//             const itemQuery = 'INSERT INTO order_items (order_id, product_id, quantity) VALUES (?, ?, ?)';
-//             items.forEach(item => {
-//                 const { product_id, quantity } = item;
-//                 db.query(itemQuery, [orderId, product_id, quantity], itemErr => {
-//                     if (itemErr) {
-//                         db.rollback(() => {
-//                             res.status(500).json({ error: 'Błąd dodawania produktu do zamówienia' });
-//                         });
-//                         return;
-//                     }
-//                 });
-//             });
-//
-//             db.commit(commitErr => {
-//                 if (commitErr) {
-//                     db.rollback(() => {
-//                         res.status(500).json({ error: 'Błąd transakcji' });
-//                     });
-//                     return;
-//                 }
-//
-//                 res.status(201).json({ message: 'Zamówienie zostało dodane' });
-//             });
-//         });
-//     });
-// });
+    db.beginTransaction(err => {
+        if (err) {
+            res.status(500).json({ error: 'Błąd transakcji' });
+            return;
+        }
+
+        // Dodaj zamówienie do tabeli `orders`
+        const orderQuery = 'INSERT INTO zamowienie (data_zamowienia, nazwa_uzytkownika, email, numer_telefonu, Stan_Zamowienia_idStan_Zamowienia) VALUES (?, ?, ?, ?, ?)';
+        db.query(orderQuery, [data_zamowienia, nazwa_uzytkownika, email, numer_telefonu, Stan_Zamowienia_idStan_Zamowienia], (orderErr, orderResult) => {
+            if (orderErr) {
+                db.rollback(() => {
+                    res.status(500).json({ error: 'Błąd dodawania zamówienia' });
+                });
+                return;
+            }
+
+            const orderId = orderResult.insertId;
+
+            // Dodaj produkty do tabeli `order_items`
+            const itemQuery = 'INSERT INTO zamowienie_produkt (Zamowienie_idZamowienie, Produkt_idProdukt, ilosc) VALUES (?, ?, ?)';
+            items.forEach(item => {
+                const { Produkt_idProdukt, ilosc } = item;
+                db.query(itemQuery, [orderId, Produkt_idProdukt, ilosc], itemErr => {
+                    if (itemErr) {
+                        db.rollback(() => {
+                            res.status(500).json({ error: 'Błąd dodawania produktu do zamówienia' });
+                        });
+                        return;
+                    }
+                });
+            });
+
+            db.commit(commitErr => {
+                if (commitErr) {
+                    db.rollback(() => {
+                        res.status(500).json({ error: 'Błąd transakcji' });
+                    });
+                    return;
+                }
+
+                res.status(201).json({ message: 'Zamówienie zostało dodane' });
+            });
+        });
+    });
+});
 
 
 
 // 3.PATCH app_url/orders/id - zmiana stanu zamówienia o podanym identyfikatorze, dane w formacie JSON PATCH. Dopuszczalne są inne warianty, np. PUT app_url/orders/id z nowym stanem i pozostałymi parametrami zamówienia w ciele żądania.
+app.patch('/orders/:id', (req, res) => {
+    const orderId = parseInt(req.params.id);
+    const newState = req.body; // Przyjmujemy dane w formacie JSON PATCH lub JSON PUT
+
+    if (!newState || Object.keys(newState).length === 0) {
+        res.status(400).json({ error: 'Brak danych do aktualizacji' });
+        return;
+    }
+
+    // Przykładowe zapytanie do bazy danych, aby sprawdzić, czy nowy stan istnieje
+    const checkQuery = 'SELECT * FROM stan_zamowienia WHERE idStan_Zamowienia = ?';
+    db.query(checkQuery, [newState.Stan_Zamowienia_idStan_Zamowienia], (checkErr, checkResults) => {
+        if (checkErr) {
+            console.error('Błąd zapytania do bazy danych: ' + checkErr.message);
+            res.status(500).json({ error: 'Błąd zapytania do bazy danych' });
+            return;
+        }
+
+        if (checkResults.length === 0) {
+            res.status(400).json({ error: 'Podany stan zamówienia nie istnieje' });
+            return;
+        }
+
+        // Budujemy zapytanie aktualizacji
+        const updateFields = { Stan_Zamowienia_idStan_Zamowienia: newState.Stan_Zamowienia_idStan_Zamowienia };
+        if (newState.data_zamowienia) updateFields.data_zamowienia = newState.data_zamowienia;
+        if (newState.nazwa_uzytkownika) updateFields.nazwa_uzytkownika = newState.nazwa_uzytkownika;
+        if (newState.email) updateFields.email = newState.email;
+        if (newState.numer_telefonu) updateFields.numer_telefonu = newState.numer_telefonu;
+
+        const updateQuery = 'UPDATE zamowienie SET ? WHERE idZamowienie = ?';
+        db.query(updateQuery, [updateFields, orderId], (err, results) => {
+            if (err) {
+                console.error('Błąd zapytania do bazy danych: ' + err.message);
+                res.status(500).json({ error: 'Błąd zapytania do bazy danych' });
+                return;
+            }
+
+            res.json({ message: 'Zaktualizowano zamówienie' });
+        });
+    });
+});
 // 4.GET app_url/orders/status/id - pobranie zamówień z określonym stanem
+app.get('/orders/status/:id', (req, res) => {
+    const statusId = parseInt(req.params.id);
+
+    // Sprawdzenie, czy podany stan istnieje w bazie danych
+    const checkStatusQuery = 'SELECT * FROM stan_zamowienia WHERE idStan_Zamowienia = ?';
+    db.query(checkStatusQuery, [statusId], (checkErr, checkResults) => {
+        if (checkErr) {
+            console.error('Błąd zapytania do bazy danych: ' + checkErr.message);
+            res.status(500).json({ error: 'Błąd zapytania do bazy danych' });
+            return;
+        }
+
+        if (checkResults.length === 0) {
+            res.status(404).json({ error: 'Podany stan zamówienia nie istnieje' });
+            return;
+        }
+
+        // Pobranie zamówienia o podanym stanie
+        const query = 'SELECT * FROM zamowienie WHERE Stan_Zamowienia_idStan_Zamowienia = ?';
+        db.query(query, [statusId], (err, results) => {
+            if (err) {
+                console.error('Błąd zapytania do bazy danych: ' + err.message);
+                res.status(500).json({ error: 'Błąd zapytania do bazy danych' });
+                return;
+            }
+            res.json(results);
+        });
+    });
+});
 
 // STAN ZAMOWIENIA
 // 1.GET app_url/status - zwraca wszystkie możliwe stany zamówienia
