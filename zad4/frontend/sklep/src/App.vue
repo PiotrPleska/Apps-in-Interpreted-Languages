@@ -34,7 +34,7 @@ export default {
         .get("http://localhost:3000/products")
         .then((response) => {
           this.products = response.data;
-          alert(this.products);
+          alert(JSON.stringify(this.products));
         })
         .catch((error) => {
           console.error("Błąd pobierania z bazy:", error);
