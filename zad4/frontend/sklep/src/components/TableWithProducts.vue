@@ -1,7 +1,7 @@
 <template>
   <div class="TableWithProducts">
 
-    <table class="table table-bordered table-hover responsived-table">
+    <table class="table table-bordered table-hover responsive-table">
       <thead>
       <tr>
         <th>Nazwa</th>
@@ -40,19 +40,31 @@ export default {
       products_copy :[]  // Declare the movies array in the data section
     };
   },
-  methods:{
-addToCart() {
-  console.log("dodawanie");
-}
+  methods: {
+    async loadData() {
+      try {
+        this.products_copy = this.products;
+      } catch (error) {
+        console.error("Błąd: ", error);
+      }
+    }
   },
-  mounted(){
-    this.products_copy = this.products;
-    this.emitter.on("filteredProducts", (data) => {
-      // alert(data)
-      this.products_copy = data;
-    });
-
+  // Watch prop 'products' for changes
+  watch: {
+    products: {
+      immediate: true, // Handle initial value
+      deep: true, // Watch for changes inside the array
+      handler(newProducts) {
+        if (newProducts.length > 0) {
+          this.loadData();
+          // Uncomment the alert if needed
+          // alert("table" + JSON.stringify(this.products_copy));
+        }
+      }
+    }
   }
+
+ 
 
 }
 </script>

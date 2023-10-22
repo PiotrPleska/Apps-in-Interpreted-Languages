@@ -1,16 +1,20 @@
-<template>
-  <p>Sklep internetowy</p>
+
+   <template>
   <div id="App">
-    <TableWithProducts :products="products" />
-    <FilterProducts :products="products" />
+    <p>Sklep internetowy</p>
+    <TableWithProducts :products="products">
+      <p>Szukanie</p>
+      <FilterProducts :products_copy="products_copy" />
+    </TableWithProducts>
     <OrderForm />
   </div>
 </template>
 
+
 <script>
 import axios from "axios"; // Dodaj import Axios
-import FilterProducts from "./components/FilterProducts.vue";
 import TableWithProducts from "./components/TableWithProducts.vue";
+import FilterProducts from "./components/FilterProducts.vue";
 import OrderForm from "./components/OrderForm.vue";
 
 export default {
@@ -34,7 +38,7 @@ export default {
         .get("http://localhost:3000/products")
         .then((response) => {
           this.products = response.data;
-          alert(JSON.stringify(this.products));
+          //alert(JSON.stringify("app"+this.products));
         })
         .catch((error) => {
           console.error("Błąd pobierania z bazy:", error);

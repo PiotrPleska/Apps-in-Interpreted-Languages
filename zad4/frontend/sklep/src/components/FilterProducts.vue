@@ -23,28 +23,27 @@
     name: 'FilterProducts',
     
     props: {
-      products: Array // Tablica produktow
+      products_copy: Array // Tablica produktow
   },
   data() {
     return {
-      products_copy :[]  // Declare the movies array in the data section
+      filtered_products :[]  
     };
   },
   mounted(){
-    this.products_copy = this.products;
+    alert("helo")
+    this.filtered_products = this.products_copy;
+    alert("filtrowanie"+JSON.stringify(this.filtered_products))
   },
   methods:{
 
     searchProducts() {
       // Przykładowa implementacja wyszukiwania filmów na podstawie kryteriów
-      const filteredProducts = this.products_copy.filter(product => {
+      const filteredProducts = this.filtered_products.filter(product => {
         const nameMatch = product.name.toLowerCase().includes(this.inputName.toLowerCase());
         const categoryMatch = product.category.toLowerCase().includes(this.inputcategory.toLowerCase());
         return nameMatch && categoryMatch;
       });
-
-      // Aktualizacja wyświetlanych filmów
-      //const filteredMoviesStr = JSON.stringify(filteredMovies, null, 2);
 
       this.emitter.emit("filteredProducts", filteredProducts);
     }
