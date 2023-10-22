@@ -1,14 +1,14 @@
 const axios = require('axios');
 
 //PRODUKT
-//1. GET app_url/products - zwraca wszystkie produkty
-// axios.get('http://localhost:3000/products')
-//     .then(response => {
-//         console.log('Odpowiedź z serwera:', response.data);
-//     })
-//     .catch(error => {
-//         console.error('Błąd:', error);
-//     });
+// 1. GET app_url/products - zwraca wszystkie produkty
+axios.get('http://localhost:3000/products')
+    .then(response => {
+        console.log('Odpowiedź z serwera:', response.data);
+    })
+    .catch(error => {
+        console.error('Błąd:', error);
+    });
 
 // 2. GET app_url/products/id - zwraca dane produktu o konkretnym identyfikatorze
 // axios.get('http://localhost:3000/products/1')
