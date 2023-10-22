@@ -42,7 +42,7 @@ export default {
   products_copy_table: {
     immediate: true, // Handle initial value
     handler(produkt) {
-      if (produkt >= 0) {
+      if (produkt.lenght >= 0) {
         alert("win")
         this.loadData();
       }
