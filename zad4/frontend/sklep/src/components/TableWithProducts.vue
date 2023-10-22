@@ -13,7 +13,7 @@
       </tr>
       </thead>
       <tbody>
-        <tr v-for="product in products_copy" :key="product.idProdukt">
+        <tr v-for="product in products_copy_table" :key="product.idProdukt">
           <td>{{ product.nazwa }}</td>
           <td>{{ product.opis }}</td>
           <td>{{ product.cena_jednostkowa }}</td>
@@ -33,17 +33,23 @@
 export default {
   name: 'TableWithProducts',
     props: {
-      products: Array // Tablica produktow
+      products: Array // Tablica produktow od App
   },
   data() {
     return {
-      products_copy :[]  // Declare the movies array in the data section
+      products_copy_table :[]  // Declare the movies array in the data section
     };
   },
+  mounted(){
+    this.emitter.on("filteredProducts", (data) => {
+      // alert(data)
+      this.products_copy_table = data;
+  })
+},
   methods: {
     async loadData() {
       try {
-        this.products_copy = this.products;
+        this.products_copy_table = this.products;
       } catch (error) {
         console.error("Błąd: ", error);
       }

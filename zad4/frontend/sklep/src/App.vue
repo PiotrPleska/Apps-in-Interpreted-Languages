@@ -2,10 +2,9 @@
    <template>
   <div id="App">
     <p>Sklep internetowy</p>
-    <TableWithProducts :products="products">
+    <TableWithProducts :products="products"/>
       <p>Szukanie</p>
-      <FilterProducts :products_copy="products_copy" />
-    </TableWithProducts>
+      <FilterProducts :products_copy_table="products_copy_table" />
     <OrderForm />
   </div>
 </template>
