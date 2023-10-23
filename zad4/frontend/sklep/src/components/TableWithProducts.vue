@@ -20,12 +20,14 @@
           <td>{{ product.waga_jednostkowa }}</td>
           <td>{{ product.nazwa_kategorii}}</td>
           <td>
-            <button class="btn btn-success" @click="addToCart(product)">Kup</button>
+            <button class="btn btn-success" @click="addToCart(product)">{{ product.isBought ? 'Kupiono' : 'Kup' }}</button>
           </td>
         </tr>
       </tbody>
     </table>
-
+    <div class = "form-group row">
+      <button class = "btn btn-success col-sm-12" type="button" @click="doOrder()">Zloz zamowienie</button>
+    </div>
   </div>
 </template>
 
@@ -37,7 +39,8 @@ export default {
   },
   data() {
     return {
-      products_copy_table :[]  // Declare the movies array in the data section
+      products_copy_table :[],
+      products_ordered:[]
     };
   },
   mounted(){
@@ -52,7 +55,20 @@ export default {
       } catch (error) {
         console.error("Błąd: ", error);
       }
+    },
+  addToCart(ordered_product) {
+    ordered_product.isBought = !ordered_product.isBought;
+    if(ordered_product.isBought){
+      this.products_ordered.push(ordered_product)
     }
+    if(!ordered_product.isBought){
+      this.products_ordered = this.products_ordered.filter(item => item !== ordered_product)
+    }
+  } ,
+  doOrder() {
+    window.open('', '_blank');
+    this.emitter.emit("orderedProducts",this.products_ordered);
+  }
   },
   // Watch prop 'products' for changes
   watch: {

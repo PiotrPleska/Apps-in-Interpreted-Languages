@@ -2,9 +2,8 @@
    <template>
   <div id="App">
     <p>Sklep internetowy</p>
+    <FilterProducts :products="products" />
     <TableWithProducts :products="products"/>
-      <p>Szukanie</p>
-      <FilterProducts :products="products" />
     <OrderForm />
   </div>
 </template>
@@ -26,8 +25,8 @@ export default {
   },
 
   components: {
-    TableWithProducts,
     FilterProducts,
+    TableWithProducts,
     OrderForm,
   },
 

@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="form-group row">
-        <button class="btn btn-info col-sm-6" type="button" @click="searchProducts">Szukaj</button>
+        <button class="btn btn-secondary col-sm-6" type="button" @click="searchProducts">Szukaj</button>
         <button class="btn btn-secondary col-sm-6" type="button" @click="reset">Reset</button>
       </div>
     </form>
@@ -62,7 +62,7 @@ export default {
     reset() {
       this.filtered_products = this.products;
       this.emitter.emit("filteredProducts", this.filtered_products); // Emit the event here
-    }
+    },
   },
   watch: {
   products: {
