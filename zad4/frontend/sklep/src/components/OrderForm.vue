@@ -76,8 +76,9 @@
       this.finalPrice=price;
     },
     doMyOrder() {
-      if(this.input_name == "") {
-        alert("puste imie")
+      const namePattern = /^[A-Z][a-z]*([A-Z][a-z]*)*$/;
+      if (!(namePattern.test(this.input_name))){
+        alert("Nie spelnia wymogow imienia")
       }
       const phoneNumberPattern = /^[0-9]{9}$/;
       if(!phoneNumberPattern.test(this.telefon_number)){
@@ -87,18 +88,24 @@
   if(!emailPattern.test(this.email)){
         alert("zly adres email")
       }
-      const data = {
-    data_zamowienia: '2023-10-20 12:30:00',
-    nazwa_uzytkownika: 'John Doe',
-    email: 'john@example.com',
-    numer_telefonu: '123-456-789',
+      let condition = (namePattern.test(this.input_name))&&  phoneNumberPattern.test(this.telefon_number) && (emailPattern.test(this.email))
+      const items1 = [];
+      for (const product of this.order) {
+        const item = [{
+          Produkt_idProdukt: product.idProdukt,
+          ilosc: product.liczba_sztuk
+        }]
+        items1.push(item);
+      }
+      if (condition){
+        const data = {
+    data_zamowienia: new Date(),
+    nazwa_uzytkownika: this.input_name,
+    email: this.email,
+    numer_telefonu: this.telefon_number,
     Stan_Zamowienia_idStan_Zamowienia: 1,
-    items: [
-        { Produkt_idProdukt: 1, ilosc: 3 },
-        { Produkt_idProdukt: 2, ilosc: 2 },
-    ],
+    items:items1
 };
-
 axios.post('http://localhost:3000/orders', data)
     .then(response => {
         console.log('Odpowiedź z serwera:', response.data);
@@ -107,6 +114,7 @@ axios.post('http://localhost:3000/orders', data)
         console.error('Błąd:', error);
     });
     }
+      }
   },
     mounted(){
       this.emitter.on("orderedProducts", (data) => {
