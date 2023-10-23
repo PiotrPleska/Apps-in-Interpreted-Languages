@@ -89,14 +89,17 @@
         alert("zly adres email")
       }
       let condition = (namePattern.test(this.input_name))&&  phoneNumberPattern.test(this.telefon_number) && (emailPattern.test(this.email))
-      const items1 = [];
+      if(condition){
+        
+        const items1 = [];
       for (const product of this.order) {
-        const item = [{
-          Produkt_idProdukt: product.idProdukt,
-          ilosc: product.liczba_sztuk
-        }]
+        const item = {
+    Produkt_idProdukt: product.idProdukt,
+    ilosc: product.liczba_sztuk
+  };
         items1.push(item);
       }
+      alert(JSON.stringify(items1))
       if (condition){
         const data = {
     data_zamowienia: new Date(),
@@ -104,7 +107,7 @@
     email: this.email,
     numer_telefonu: this.telefon_number,
     Stan_Zamowienia_idStan_Zamowienia: 1,
-    items:items1
+    items:JSON.stringify(items1)
 };
 axios.post('http://localhost:3000/orders', data)
     .then(response => {
@@ -115,6 +118,9 @@ axios.post('http://localhost:3000/orders', data)
     });
     }
       }
+
+      }
+      
   },
     mounted(){
       this.emitter.on("orderedProducts", (data) => {

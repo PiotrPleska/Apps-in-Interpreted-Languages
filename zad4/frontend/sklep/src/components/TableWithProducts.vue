@@ -66,7 +66,6 @@ export default {
     }
   } ,
   doOrder() {
-    window.open('', '_blank');
     this.emitter.emit("orderedProducts",this.products_ordered);
   }
   },
