@@ -55,14 +55,13 @@ export default {
         const categoryMatch = product.nazwa_kategorii.toLowerCase().includes(this.searchCriteria.category.toLowerCase());
         return nameMatch && categoryMatch;
       });
-      alert(filteredProducts);
 
-      this.$emit("filteredProducts", filteredProducts); // Emit the event here
+      this.emitter.emit("filteredProducts", filteredProducts); // Emit the event here
     },
 
     reset() {
       this.filtered_products = this.products;
-      this.$emit("filteredProducts", this.filtered_products); // Emit the event here
+      this.emitter.emit("filteredProducts", this.filtered_products); // Emit the event here
     }
   },
   watch: {

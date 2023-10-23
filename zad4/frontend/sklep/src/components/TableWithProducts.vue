@@ -42,8 +42,6 @@ export default {
   },
   mounted(){
     this.emitter.on("filteredProducts", (data) => {
-       alert(data)
-      alert("jestesmy w tabeli nasluchiwanie"+this.products_copy_table);
       this.products_copy_table = data;
   })
 },
