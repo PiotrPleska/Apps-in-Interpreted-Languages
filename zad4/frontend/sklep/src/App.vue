@@ -4,7 +4,7 @@
     <p>Sklep internetowy</p>
     <TableWithProducts :products="products"/>
       <p>Szukanie</p>
-      <FilterProducts :products_copy_table="products_copy_table" />
+      <FilterProducts :products="products" />
     <OrderForm />
   </div>
 </template>

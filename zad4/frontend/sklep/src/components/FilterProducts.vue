@@ -27,7 +27,7 @@ export default {
   name: 'FilterProducts',
   
   props: {
-    products_copy_table: Array // Tablica produktów
+    products: Array // Tablica produktów od App
   },
   data() {
     return {
@@ -38,22 +38,12 @@ export default {
       }
     };
   },
-  watch: {
-  products_copy_table: {
-    immediate: true, // Handle initial value
-    handler(produkt) {
-      if (produkt.lenght >= 0) {
-        alert("win")
-        this.loadData();
-      }
-    }
-  }
-},
+ 
   
   methods: {
     async loadData() {
       try {
-        this.filtered_products = this.products_copy_table;
+        this.filtered_products = this.products;
       } catch (error) {
         console.error("Błąd: ", error);
       }
@@ -62,18 +52,31 @@ export default {
     searchProducts() {
       const filteredProducts = this.filtered_products.filter(product => {
         const nameMatch = product.nazwa.toLowerCase().includes(this.searchCriteria.name.toLowerCase());
-        const categoryMatch = product.Kategoria_idKategoria.toLowerCase().includes(this.searchCriteria.category.toLowerCase());
+        const categoryMatch = product.nazwa_kategorii.toLowerCase().includes(this.searchCriteria.category.toLowerCase());
         return nameMatch && categoryMatch;
       });
+      alert(filteredProducts);
 
       this.$emit("filteredProducts", filteredProducts); // Emit the event here
     },
 
     reset() {
-      this.filtered_products = this.products_copy_table;
+      this.filtered_products = this.products;
       this.$emit("filteredProducts", this.filtered_products); // Emit the event here
     }
+  },
+  watch: {
+  products: {
+    immediate: true, // Handle initial value
+    handler(products) {
+      if (products.length > 0) { // Check if 'products' is defined and has a length greater than 0
+        this.loadData();
+      }
+    }
   }
+}
+
+
 }
 </script>
 

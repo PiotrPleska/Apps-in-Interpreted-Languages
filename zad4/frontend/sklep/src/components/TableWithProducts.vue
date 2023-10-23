@@ -18,9 +18,9 @@
           <td>{{ product.opis }}</td>
           <td>{{ product.cena_jednostkowa }}</td>
           <td>{{ product.waga_jednostkowa }}</td>
-          <td>{{ product.Kategoria_idKategoria }}</td>
+          <td>{{ product.nazwa_kategorii}}</td>
           <td>
-            <button class="btn" @click="addToCart(product)">Kup</button> 
+            <button class="btn btn-success" @click="addToCart(product)">Kup</button>
           </td>
         </tr>
       </tbody>
@@ -42,7 +42,8 @@ export default {
   },
   mounted(){
     this.emitter.on("filteredProducts", (data) => {
-      // alert(data)
+       alert(data)
+      alert("jestesmy w tabeli nasluchiwanie"+this.products_copy_table);
       this.products_copy_table = data;
   })
 },
@@ -63,8 +64,6 @@ export default {
       handler(newProducts) {
         if (newProducts.length > 0) {
           this.loadData();
-          // Uncomment the alert if needed
-          // alert("table" + JSON.stringify(this.products_copy));
         }
       }
     }
