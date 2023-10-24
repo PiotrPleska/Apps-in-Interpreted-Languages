@@ -110,7 +110,7 @@
   };
         items1.push(item);
       }
-      alert(JSON.stringify(items1))
+      // alert(items1)
       if (condition){
         const data = {
     data_zamowienia: this.getCurrentDateTime(),
@@ -118,10 +118,7 @@
     email: this.email,
     numer_telefonu: this.telefon_number,
     Stan_Zamowienia_idStan_Zamowienia: 1,
-          items: [
-            { Produkt_idProdukt: 1, ilosc: 3 },
-            { Produkt_idProdukt: 2, ilosc: 2 },
-          ],
+          items: items1
 };
 axios.post('http://localhost:3000/orders', data)
     .then(response => {
