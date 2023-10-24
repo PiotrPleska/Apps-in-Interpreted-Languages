@@ -310,7 +310,6 @@ app.post('/orders', (req, res) => {
                     return res.status(500).json({ error: 'Błąd dodawania zamówienia' });
                 });
             }
-
             const orderId = orderResult.insertId;
 
             // Dodaj produkty do tabeli `order_items`

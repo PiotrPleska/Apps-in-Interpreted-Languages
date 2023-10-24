@@ -60,6 +60,17 @@
       };
     },
     methods:{
+      getCurrentDateTime() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Dodaj zero z przodu, jeśli miesiąc jest jednocyfrowy
+    const day = String(now.getDate()).padStart(2, '0'); // Dodaj zero z przodu, jeśli dzień jest jednocyfrowy
+    const hours = String(now.getHours()).padStart(2, '0'); // Dodaj zero z przodu, jeśli godzina jest jednocyfrowa
+    const minutes = String(now.getMinutes()).padStart(2, '0'); // Dodaj zero z przodu, jeśli minuta jest jednocyfrowa
+    const seconds = String(now.getSeconds()).padStart(2, '0'); // Dodaj zero z przodu, jeśli sekunda jest jednocyfrowa
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  },
       increaseQuantity(product) {
         product.liczba_sztuk += 1;
         this.calculateOrderPrice()
@@ -102,12 +113,15 @@
       alert(JSON.stringify(items1))
       if (condition){
         const data = {
-    data_zamowienia: new Date(),
+    data_zamowienia: this.getCurrentDateTime(),
     nazwa_uzytkownika: this.input_name,
     email: this.email,
     numer_telefonu: this.telefon_number,
     Stan_Zamowienia_idStan_Zamowienia: 1,
-    items:JSON.stringify(items1)
+          items: [
+            { Produkt_idProdukt: 1, ilosc: 3 },
+            { Produkt_idProdukt: 2, ilosc: 2 },
+          ],
 };
 axios.post('http://localhost:3000/orders', data)
     .then(response => {
@@ -122,6 +136,7 @@ axios.post('http://localhost:3000/orders', data)
       }
       
   },
+
     mounted(){
       this.emitter.on("orderedProducts", (data) => {
         this.order = data.map(product => ({ ...product, liczba_sztuk: 1 }))
