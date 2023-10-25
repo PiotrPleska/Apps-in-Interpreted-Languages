@@ -67,6 +67,7 @@ export default {
   } ,
   doOrder() {
     this.emitter.emit("orderedProducts",this.products_ordered);
+    this.$router.push({ name: "OrderForm" });
   }
   },
   // Watch prop 'products' for changes

@@ -76,7 +76,9 @@
         this.calculateOrderPrice()
       },
       decreaseQuantity(product) {
-        product.liczba_sztuk -= 1;
+        if(product.liczba_sztuk>0){
+          product.liczba_sztuk -= 1;
+        }
         this.calculateOrderPrice()
       },
     calculateOrderPrice(){

@@ -1,10 +1,10 @@
 
-   <template>
+<template>
   <div id="App">
-    <p>Sklep internetowy</p>
+    <p  style="text-align: center;">Sklep internetowy</p>
     <FilterProducts :products="products" />
     <TableWithProducts :products="products"/>
-    <OrderForm />
+    <OrderForm/>
   </div>
 </template>
 
@@ -15,9 +15,10 @@ import TableWithProducts from "./components/TableWithProducts.vue";
 import FilterProducts from "./components/FilterProducts.vue";
 import OrderForm from "./components/OrderForm.vue";
 
+
+
 export default {
   name: "App",
-
   data() {
     return {
       products: [],
@@ -55,8 +56,12 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  text-align: left;
+  margin: 50px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+
+}
+.table{
+  text-align:center;
 }
 </style>
