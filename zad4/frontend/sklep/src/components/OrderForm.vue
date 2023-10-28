@@ -1,54 +1,57 @@
-
 <template>
-    <div class="OrderForm">
+  <div class="OrderForm">
+    <h2 class="text-center">Wpisz dane, aby zrealizować zamówienie</h2>
 
-      <table class="table table-bordered table-hover responsive-table">
+    <table class="table table-bordered table-hover responsive-table">
       <thead>
-      <tr>
-        <th>Nazwa</th>
-        <th>Liczba_sztuk</th>
-        <th>Laczna_cena</th>
-      </tr>
+        <tr>
+          <th>Nazwa</th>
+          <th>Liczba sztuk</th>
+          <th>Łączna cena</th>
+        </tr>
       </thead>
       <tbody>
         <tr v-for="product in order" :key="product.idProdukt">
           <td>{{ product.nazwa }}</td>
           <td>
-            <button @click="increaseQuantity(product)">+</button>
+            <button class="quantity-button" @click="increaseQuantity(product)">+</button>
             {{ product.liczba_sztuk }}
-            <button @click="decreaseQuantity(product)">-</button>
+            <button class="quantity-button" @click="decreaseQuantity(product)">-</button>
           </td>
-          <td>{{ product.cena_jednostkowa*product.liczba_sztuk }}</td>
+          <td>{{ product.cena_jednostkowa * product.liczba_sztuk }}</td>
         </tr>
       </tbody>
     </table>
-    <div class="alert alert-info">
-      Laczna cena zamowienia: {{ this.finalPrice }}
+
+    <div class="alert alert-info text-center">
+      Łączna cena zamówienia: {{ this.finalPrice }}
     </div>
 
-<P>Wpisz dane by zrealizowac zamowienie</P>
-<div class="form-group row">
-    <form class="form">
-        <div class="form-group">
-            <label class="col-sm-1 col-form-label" for="input_name" >Imie</label>
-            <input class="col-sm-3" type="text" id="input_name" v-model="input_name">
+    <form>
+      <div class="form-group row justify-content-center">
+        <label class="col-sm-2 col-form-label" for="input_name">Imię</label>
+        <div class="col-sm-3">
+          <input class="form-control" type="text" id="input_name" v-model="input_name">
         </div>
-        <div class="form-group">
-            <label class="col-sm-1" for="email">E-mail</label>
-            <input class="col-sm-3" type="email" id="email" v-model="email">
+      </div>
+      <div class="form-group row justify-content-center">
+        <label class="col-sm-2" for="email">E-mail</label>
+        <div class="col-sm-3">
+          <input class="form-control" type="email" id="email" v-model="email">
         </div>
-        <div class="form-group">
-            <label class="col-sm-1" for="telefon_number">Telefon</label>
-            <input class="col-sm-3" type="text" id="telefon_number" v-model = "telefon_number">
+      </div>
+      <div class="form-group row justify-content-center">
+        <label class="col-sm-2" for="telefon_number">Telefon</label>
+        <div class="col-sm-3">
+          <input class="form-control" type="text" id="telefon_number" v-model="telefon_number">
         </div>
-        <button class="btn btn-primary" type="button" @click="doMyOrder()">Zamów</button>
+      </div>
+      <button class="col-sm-12 btn btn-primary" type="button" @click="doMyOrder">Zamów</button>
     </form>
-</div>
+  </div>
+</template>
 
-    </div>
-  </template>
-  
-  <script>
+<script>
   const axios = require('axios');
   export default {
     name: 'OrderForm',
@@ -143,10 +146,73 @@ axios.post('http://localhost:3000/orders', data)
   })
     }
 }
-  </script>
-  
-  <!-- Add "scoped" attribute to limit CSS to this component only -->
-  <style scoped>
-  
-  </style>
-  
+
+</script>
+
+<style scoped>
+.OrderForm {
+  text-align: center;
+  padding: 20px;
+}
+
+.table {
+  text-align: center;
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.table th {
+  background-color: #343a40; /* Dark gray background for table headers */
+  color: #fff; /* Header text color */
+  font-weight: bold;
+}
+
+.table th,
+.table td {
+  padding: 10px;
+}
+
+.quantity-button {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-right: 5px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.quantity-button:hover {
+  background-color: #218838;
+}
+
+.alert-info {
+  background-color: #343a40; /* Teal background for the info alert */
+  color: #fff;
+  border-radius: 10px;
+}
+
+.form-control {
+  border: 2px solid #ced4da;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.btn-primary {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+</style>

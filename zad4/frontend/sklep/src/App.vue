@@ -1,10 +1,10 @@
 
 <template>
   <div id="App">
-    <p  style="text-align: center;">Sklep internetowy</p>
+    <h1 class="page-title">Sklep internetowy</h1>
     <FilterProducts :products="products" />
     <TableWithProducts :products="products"/>
-    <OrderForm/>
+    <OrderForm></OrderForm>
   </div>
 </template>
 
@@ -59,9 +59,18 @@ export default {
   text-align: left;
   margin: 50px;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
 
+.page-title {
+  text-align: center; /* Center-align the text */
+  font-size: 36px; /* Adjust the font size */
+  font-weight: bold; /* Apply bold style */
+  color:black; /* Set the color (blue in this case) */
+  margin-top: 50px; /* Add a top margin to position it at the top */
 }
-.table{
-  text-align:center;
+
+#app background{
+  background-color: aqua;
 }
+
 </style>

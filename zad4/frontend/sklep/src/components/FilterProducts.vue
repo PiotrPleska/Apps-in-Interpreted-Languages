@@ -38,7 +38,6 @@ export default {
       }
     };
   },
- 
   
   methods: {
     async loadData() {
@@ -62,23 +61,50 @@ export default {
     reset() {
       this.filtered_products = this.products;
       this.emitter.emit("filteredProducts", this.filtered_products); // Emit the event here
+      this.searchCriteria.category = "";
+      this.searchCriteria.name = "";
     },
   },
   watch: {
-  products: {
-    immediate: true, // Handle initial value
-    handler(products) {
-      if (products.length > 0) { // Check if 'products' is defined and has a length greater than 0
-        this.loadData();
+    products: {
+      immediate: true, // Handle initial value
+      handler(products) {
+        if (products.length > 0) {
+          this.loadData();
+        }
       }
     }
   }
 }
-
-
-}
 </script>
 
 <style scoped>
-  
+/* Custom styling for your component */
+
+
+/* Style the form elements */
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-control {
+  border: 5px solid #ced4da;
+  padding: 5px;
+}
+
+/* Style the buttons */
+
+
+.btn-secondary {
+  padding: 5px 15px;
+  border: 5px solid #ced4da;
+  background-color: #6c757d;
+  color: #fff;
+  transition: background-color 0.3s;
+}
+
+.btn-secondary:hover {
+  background-color: #495057;
+}
+
 </style>
