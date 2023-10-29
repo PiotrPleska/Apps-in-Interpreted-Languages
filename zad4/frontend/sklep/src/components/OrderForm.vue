@@ -48,7 +48,7 @@
           <input class="form-control" type="text" id="telefon_number" v-model="telefon_number">
         </div>
       </div>
-      <button class="col-sm-12 btn btn-primary" type="button" @click="doMyOrder">Zamów</button>
+      <button style="margin-top: 10px;" class="col-sm-12 btn btn-primary" type="button" @click="doMyOrder">Zamów</button>
     </form>
   </div>
   </div>
