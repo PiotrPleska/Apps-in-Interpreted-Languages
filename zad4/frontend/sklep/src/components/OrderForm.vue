@@ -1,5 +1,6 @@
 <template>
   <div class="OrderForm">
+    <div v-if="arrivedFromButton">
     <h2 class="text-center">Wpisz dane, aby zrealizować zamówienie</h2>
 
     <table class="table table-bordered table-hover responsive-table">
@@ -49,6 +50,7 @@
       <button class="col-sm-12 btn btn-primary" type="button" @click="doMyOrder">Zamów</button>
     </form>
   </div>
+  </div>
 </template>
 
 <script>
@@ -60,7 +62,21 @@
       return {
         order: [], 
         finalPrice: 0,
+        arrivedFromButton: false,
       };
+    },
+    beforeRouteEnter(to, from, next) {
+      if (from.name === null) {
+        // User arrived directly, not from the button
+        next(vm => {
+          vm.arrivedFromButton = false;
+        });
+      } else {
+        // User arrived from the button
+        next(vm => {
+          vm.arrivedFromButton = true;
+        });
+      }
     },
     methods:{
       getCurrentDateTime() {

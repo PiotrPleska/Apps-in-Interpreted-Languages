@@ -2,58 +2,48 @@
   <div class="TableWithProducts">
     <table class="table table-bordered table-hover">
       <thead>
-        <tr>
-          <th>Nazwa</th>
-          <th>Opis</th>
-          <th>Cena</th>
-          <th>Waga</th>
-          <th>Id_kategoria</th>
-          <th>Kup</th>
-        </tr>
+      <tr>
+        <th>Nazwa</th>
+        <th>Opis</th>
+        <th>Cena</th>
+        <th>Waga</th>
+        <th>Id_kategoria</th>
+        <th>Kup</th>
+      </tr>
       </thead>
       <tbody>
-        <tr v-for="product in products_copy_table" :key="product.idProdukt">
-          <td>{{ product.nazwa }}</td>
-          <td>{{ product.opis }}</td>
-          <td>{{ product.cena_jednostkowa }}</td>
-          <td>{{ product.waga_jednostkowa }}</td>
-          <td>{{ product.nazwa_kategorii }}</td>
-          <td>
-            <button
+      <tr v-for="product in products_copy_table" :key="product.idProdukt">
+        <td>{{ product.nazwa }}</td>
+        <td>{{ product.opis }}</td>
+        <td>{{ product.cena_jednostkowa }}</td>
+        <td>{{ product.waga_jednostkowa }}</td>
+        <td>{{ product.nazwa_kategorii }}</td>
+        <td>
+          <button
               class="btn btn-success"
               @click="addToCart(product)"
               :class="{ 'btn-secondary': product.isBought }"
-            >
-              {{ product.isBought ? 'Kupiono' : 'Kup' }}
-            </button>
-          </td>
-        </tr>
+          >
+            {{ product.isBought ? 'Kupiono' : 'Kup' }}
+          </button>
+        </td>
+      </tr>
       </tbody>
     </table>
     <div class="form-group row">
-      <button
-        class="btn btn-success col-sm-12"
-        type="button"
-        @click="doOrder"
-      >
-        Złoż zamówienie
-      </button>
-      <div>
-        <component :is="OrderForm"></component>
-      </div>
+      <router-link to="/order-form">
+        <button class="btn btn-success col-sm-12" @click="redirectToOrderForm">Złoż zamówienie</button>
+      </router-link>
+      <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script>
-import OrderForm from "@/components/OrderForm.vue";
 export default {
   name: "TableWithProducts",
   props: {
     products: Array, // Tablica produktów od App
-  },
-  components: {
-    OrderForm,
   },
   data() {
     return {
@@ -67,6 +57,10 @@ export default {
     });
   },
   methods: {
+    async redirectToOrderForm() {
+      this.emitter.emit("orderedProducts", this.products_ordered);
+      this.$router.push({ name: 'OrderForm' });
+    },
     async loadData() {
       try {
         this.products_copy_table = this.products;
@@ -81,13 +75,13 @@ export default {
       }
       if (!ordered_product.isBought) {
         this.products_ordered = this.products_ordered.filter(
-          (item) => item !== ordered_product
+            (item) => item !== ordered_product
         );
       }
     },
-    doOrder() {
+    async doOrder() {
       this.emitter.emit("orderedProducts", this.products_ordered);
-      //this.$router.push({ name: "OrderForm" });
+      await this.router.push({ name: "/order-form" });
     },
   },
   // Watch prop 'products' for changes

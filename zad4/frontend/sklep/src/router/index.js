@@ -1,19 +1,18 @@
-import { createWebHistory, createRouter } from "vue-router";
-import OrderForm from "@/components/OrderForm.vue";
+import { createRouter, createWebHistory } from 'vue-router';
+
 
 const routes = [
-  
-{
-    path: "/order",
-    name: "OrderForm",
-    component: OrderForm,
-  },
- 
+    // Other routes
+    {
+        path: '/order-form',
+        name: 'OrderForm', // This defines the name of the route
+        component: () => import(/* webpackChunkName: "order-form" */ '@/components/OrderForm'),
+    },
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes,
+    history: createWebHistory(process.env.BASE_URL),
+    routes,
 });
 
 export default router;
