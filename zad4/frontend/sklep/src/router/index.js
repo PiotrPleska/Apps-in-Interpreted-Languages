@@ -2,11 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 
 const routes = [
-    // Other routes
     {
         path: '/order-form',
         name: 'OrderForm', // This defines the name of the route
-        component: () => import(/* webpackChunkName: "order-form" */ '@/components/OrderForm'),
+        component: () => import('@/components/OrderForm'),
     },
 ];
 

@@ -23,6 +23,7 @@
               class="btn btn-success"
               @click="addToCart(product)"
               :class="{ 'btn-secondary': product.isBought }"
+              v-if="!isOrderPlaced"
           >
             {{ product.isBought ? 'Kupiono' : 'Kup' }}
           </button>
@@ -32,7 +33,7 @@
     </table>
     <div class="form-group row">
       <router-link to="/order-form">
-        <button class="btn btn-success col-sm-12" @click="redirectToOrderForm">Złoż zamówienie</button>
+        <button class="btn btn-success col-sm-12" @click="redirectToOrderFormm" v-if="isOrderButtonEnabled">Złoż zamówienie</button>
       </router-link>
       <router-view></router-view>
     </div>
@@ -45,8 +46,15 @@ export default {
   props: {
     products: Array, // Tablica produktów od App
   },
+  computed: {
+    isOrderButtonDisabled() {
+      return this.products_copy_table.every(product => !product.isBought);
+    }
+  },
   data() {
     return {
+      isOrderPlaced: false,
+      isOrderButtonEnabled: false,
       products_copy_table: [],
       products_ordered: [],
     };
@@ -57,8 +65,9 @@ export default {
     });
   },
   methods: {
-    async redirectToOrderForm() {
+     async redirectToOrderForm() {
       this.emitter.emit("orderedProducts", this.products_ordered);
+       this.isOrderPlaced = true;
       this.$router.push({ name: 'OrderForm' });
     },
     async loadData() {
@@ -78,10 +87,13 @@ export default {
             (item) => item !== ordered_product
         );
       }
+      this.isOrderButtonEnabled = this.products_copy_table.some(product => product.isBought);
     },
-    async doOrder() {
-      this.emitter.emit("orderedProducts", this.products_ordered);
-      await this.router.push({ name: "/order-form" });
+    redirectToOrderFormm() {
+      this.redirectToOrderForm();
+      setTimeout(() => {
+        this.redirectToOrderForm();
+      }, 1);
     },
   },
   // Watch prop 'products' for changes

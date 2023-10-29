@@ -9,6 +9,7 @@
           <th>Nazwa</th>
           <th>Liczba sztuk</th>
           <th>Łączna cena</th>
+          <th>Usuń</th>
         </tr>
       </thead>
       <tbody>
@@ -60,9 +61,12 @@
     
     data() {
       return {
-        order: [], 
+        order: [],
         finalPrice: 0,
         arrivedFromButton: false,
+        input_name: '',
+        email: '',
+        telefon_number: '',
       };
     },
     beforeRouteEnter(to, from, next) {
