@@ -10,7 +10,7 @@
 
 
 <script>
-import axios from "axios"; // Dodaj import Axios
+import axios from "axios";
 import TableWithProducts from "./components/TableWithProducts.vue";
 import FilterProducts from "./components/FilterProducts.vue";
 import OrderForm from "./components/OrderForm.vue";

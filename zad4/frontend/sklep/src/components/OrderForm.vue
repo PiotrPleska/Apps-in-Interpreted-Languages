@@ -1,5 +1,6 @@
 <template>
   <div class="OrderForm">
+    <div v-if="arrivedFromButton">
     <h2 class="text-center">Wpisz dane, aby zrealizować zamówienie</h2>
 
     <table class="table table-bordered table-hover responsive-table">
@@ -8,6 +9,7 @@
           <th>Nazwa</th>
           <th>Liczba sztuk</th>
           <th>Łączna cena</th>
+          <th>Usuń</th>
         </tr>
       </thead>
       <tbody>
@@ -19,6 +21,9 @@
             <button class="quantity-button" @click="decreaseQuantity(product)">-</button>
           </td>
           <td>{{ product.cena_jednostkowa * product.liczba_sztuk }}</td>
+          <td>
+            <button class = "btn btn-success" @click="deleteFromOrder(product)">Usun</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -46,8 +51,9 @@
           <input class="form-control" type="text" id="telefon_number" v-model="telefon_number">
         </div>
       </div>
-      <button class="col-sm-12 btn btn-primary" type="button" @click="doMyOrder">Zamów</button>
+      <button style="margin-top: 10px;" class="col-sm-12 btn btn-primary" type="button" @click="doMyOrder">Zamów</button>
     </form>
+  </div>
   </div>
 </template>
 
@@ -58,9 +64,26 @@
     
     data() {
       return {
-        order: [], 
+        order: [],
         finalPrice: 0,
+        arrivedFromButton: false,
+        input_name: '',
+        email: '',
+        telefon_number: '',
       };
+    },
+    beforeRouteEnter(to, from, next) {
+      if (from.name === null) {
+        // User arrived directly, not from the button
+        next(vm => {
+          vm.arrivedFromButton = false;
+        });
+      } else {
+        // User arrived from the button
+        next(vm => {
+          vm.arrivedFromButton = true;
+        });
+      }
     },
     methods:{
       getCurrentDateTime() {
@@ -83,6 +106,11 @@
           product.liczba_sztuk -= 1;
         }
         this.calculateOrderPrice()
+      },
+      deleteFromOrder(product){
+        const index = this.order.indexOf(product); 
+        this.order.splice(index,1);
+        this.calculateOrderPrice();
       },
     calculateOrderPrice(){
       let price = 0;
@@ -176,11 +204,20 @@ axios.post('http://localhost:3000/orders', data)
   padding: 5px 10px;
   cursor: pointer;
   margin-right: 5px;
-  border-radius: 5px;
   transition: background-color 0.3s;
 }
 
 .quantity-button:hover {
+  background-color: #343a40;
+}
+.btn-success{
+  background-color: #28a745;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.btn-success :hover{
   background-color: #343a40;
 }
 
