@@ -150,18 +150,13 @@ axios.post('http://localhost:3000/orders', data)
 </script>
 
 <style scoped>
-.OrderForm {
-  text-align: center;
-  padding: 20px;
-}
+
 
 .table {
   text-align: center;
   width: 100%;
   border-collapse: collapse;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: #fff;
-  border-radius: 10px;
 }
 
 .table th {
@@ -178,7 +173,6 @@ axios.post('http://localhost:3000/orders', data)
 .quantity-button {
   background-color: #28a745;
   color: #fff;
-  border: none;
   padding: 5px 10px;
   cursor: pointer;
   margin-right: 5px;
@@ -187,7 +181,7 @@ axios.post('http://localhost:3000/orders', data)
 }
 
 .quantity-button:hover {
-  background-color: #218838;
+  background-color: #343a40;
 }
 
 .alert-info {
@@ -205,10 +199,9 @@ axios.post('http://localhost:3000/orders', data)
 .btn-primary {
   background-color: #28a745;
   color: #fff;
-  border: none;
   padding: 10px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 50px;
   transition: background-color 0.3s;
 }
 

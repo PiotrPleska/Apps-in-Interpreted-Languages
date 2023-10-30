@@ -66,11 +66,8 @@ export default {
   font-size: 36px; /* Adjust the font size */
   font-weight: bold; /* Apply bold style */
   color:black; /* Set the color (blue in this case) */
-  margin-top: 50px; /* Add a top margin to position it at the top */
+  margin-top: 0px;
 }
 
-#app background{
-  background-color: aqua;
-}
 
 </style>

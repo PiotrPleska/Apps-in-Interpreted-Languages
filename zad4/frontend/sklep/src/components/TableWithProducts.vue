@@ -20,10 +20,8 @@
           <td>{{ product.nazwa_kategorii }}</td>
           <td>
             <button
-              class="btn btn-success"
-              @click="addToCart(product)"
-              :class="{ 'btn-secondary': product.isBought }"
-            >
+              class="btn btn-success" @click="addToCart(product)"
+              :class="{ 'btn-secondary': product.isBought }" >
               {{ product.isBought ? 'Kupiono' : 'Kup' }}
             </button>
           </td>
@@ -127,12 +125,9 @@ export default {
 }
 
 .btn-success {
-  background-color: #28a745;
   color: #fff;
-  border: none;
   padding: 5px 15px;
   cursor: pointer;
-  transition: background-color 0.3s;
 }
 
 .btn-secondary {
@@ -147,18 +142,14 @@ export default {
 .form-group button {
   background-color: #28a745;
   color: #fff;
-  border: none;
+  border-radius: 50px;
   padding: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.5s;
 
 }
 
 .form-group button:hover {
   background-color: #0056b3; /* Darker blue on hover */
 }
-
-/* Custom styles for the component */
-/* Add your custom styles here */
 
 </style>
