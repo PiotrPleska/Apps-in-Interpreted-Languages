@@ -42,7 +42,7 @@ const axios = require('axios');
 //
 // // 4.PUT app_url/products/id - aktualizuje produkt o konkretnym identyfikatorze, pozostałe parametry produktu w ciele żądania. Można też zrobić PUT app_url/products ze wszystkimi parametrami w ciele żądania.
 // const updateProduct = {
-//     nazwa: 'Zaktualizowany produkt'
+//     Kategoria_idKategoria: 8,
 // }
 // axios.put('http://localhost:3000/products/1', JSON.stringify(updateProduct), {
 //     headers: {
@@ -68,13 +68,13 @@ const axios = require('axios');
 //
 // // ZAMOWIENIA
 // 1.GET app_url/orders - zwraca wszystkie zamówienia
-axios.get('http://localhost:3000/orders')
-    .then(response => {
-        console.log('Odpowiedź z serwera:', response.data);
-    })
-    .catch(error => {
-        console.error('Błąd:', error);
-    });
+// axios.get('http://localhost:3000/orders')
+//     .then(response => {
+//         console.log('Odpowiedź z serwera:', response.data);
+//     })
+//     .catch(error => {
+//         console.error('Błąd:', error);
+//     });
 //
 // // 2.POST app_url/orders - dodaje zamówienie (parametry w ciele żądania)
 // const data = {
@@ -99,19 +99,19 @@ axios.get('http://localhost:3000/orders')
 //
 //
 // 3.PATCH app_url/orders/id - zmiana stanu zamówienia o podanym identyfikatorze, dane w formacie JSON PATCH. Dopuszczalne są inne warianty, np. PUT app_url/orders/id z nowym stanem i pozostałymi parametrami zamówienia w ciele żądania.
-const newState = {
-    // numer_telefonu: '666-666-666',
-    // nazwa_uzytkownika: 'Jane Doe',
-    Stan_Zamowienia_idStan_Zamowienia: 4, // Nowy stan zamówienia
-};
-//
-axios.patch(`http://localhost:3000/orders/1`, newState)
-    .then(response => {
-        console.log(response.data);
-    })
-    .catch(error => {
-        console.error(error.response.data);
-    });
+// const newState = {
+//     // numer_telefonu: '666-666-666',
+//     // nazwa_uzytkownika: 'Jane Doe',
+//     Stan_Zamowienia_idStan_Zamowienia: 4, // Nowy stan zamówienia
+// };
+// //
+// axios.patch(`http://localhost:3000/orders/1`, newState)
+//     .then(response => {
+//         console.log(response.data);
+//     })
+//     .catch(error => {
+//         console.error(error.response.data);
+//     });
 //
 //
 //

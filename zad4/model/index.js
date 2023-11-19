@@ -100,8 +100,8 @@ app.post('/products', (req, res) => {
         return;
     }
 
-    if(!Number.isInteger(Kategoria_idKategoria)) {
-        res.status(400).json({ error: 'ID kategorii musi być liczbą całkowitą' });
+    if(Kategoria_idKategoria.type !== 'number') {
+        res.status(400).json({ error: 'ID kategorii musi być liczbą' });
         return;
     }
 
@@ -189,10 +189,6 @@ app.put('/products/:id', (req, res) => {
     }
 
     if (Kategoria_idKategoria) {
-        if(!Number.isInteger(Kategoria_idKategoria)) {
-            res.status(400).json({ error: 'ID kategorii musi być liczbą całkowitą' });
-            return;
-        }
         if(Kategoria_idKategoria <= 0) {
             res.status(400).json({ error: 'ID kategorii musi być liczbą dodatnią' });
             return;

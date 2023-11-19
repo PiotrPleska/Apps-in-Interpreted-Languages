@@ -54,6 +54,47 @@
           </tbody>
         </table>
       </div>
+      <div >
+      <h3>Wszystkie produkty</h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nazwa</th>
+          <th>Opis</th>
+          <th>Cena</th>
+          <th>Waga</th>
+          <th>Kategoria</th>
+          <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="product in allProducts" :key="product.idProdukt">
+          <td>{{ product.idProdukt }}</td>
+          <td>{{ product.nazwa }}</td>
+          <td>{{ product.opis }}</td>
+          <td>{{ product.cena_jednostkowa }}</td>
+          <td>{{ product.waga_jednostkowa }}</td>
+          <td>{{product.nazwa_kategorii}}</td>
+          <td>
+            <div>
+              <button id="update" @click="updateProductDescription(product.idProdukt, descriptionInput)" class="btn btn-primary">Aktualizuj Opis</button>
+              <input v-model="descriptionInput" placeholder="Nowy opis" />
+            </div>
+            <div>
+              <button id="update" @click="updateProductPrice(product.idProdukt, priceInput)" class="btn btn-success">Aktualizuj cenę</button>
+              <input v-model="priceInput" placeholder="Nowa cena" />
+            </div>
+            <div>
+              <button id="update" @click="updateProductWeight(product.idProdukt, weightInput)" class="btn btn-danger">Aktualizuj wagę</button>
+              <input v-model="weightInput" placeholder="Nowa waga" />
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      </div>
+
     </div>
     <div v-else>
       <!-- Login form -->
@@ -79,6 +120,7 @@ export default {
       isLoggedIn: false,
       unfulfilledOrders: [],
       orders: [],
+      allProducts: [],
     };
   },
   computed: {
@@ -94,6 +136,76 @@ export default {
     },
   },
   methods: {
+    fetchAllProducts() {
+      axios
+          .get('http://localhost:3000/products')
+          .then((response) => {
+            this.allProducts = response.data;
+          })
+          .catch((error) => {
+            console.error('Błąd:', error);
+          });
+    },
+    updateProductDescription(productId, value) {
+      const updateProduct = {
+        opis: value,
+      };
+
+      axios
+          .put(`http://localhost:3000/products/${productId}`, JSON.stringify(updateProduct), {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+          .then((response) => {
+            console.log('Zaktualizowano produkt:', response.data);
+            // After updating, refresh the list of all products
+            this.fetchAllProducts();
+          })
+          .catch((error) => {
+            console.error('Błąd:', error.response.data);
+          });
+    },
+    updateProductPrice(productId, value) {
+      const updateProduct = {
+        cena_jednostkowa: value,
+      };
+
+      axios
+          .put(`http://localhost:3000/products/${productId}`, JSON.stringify(updateProduct), {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+          .then((response) => {
+            console.log('Zaktualizowano produkt:', response.data);
+            // After updating, refresh the list of all products
+            this.fetchAllProducts();
+          })
+          .catch((error) => {
+            console.error('Błąd:', error.response.data);
+          });
+    },
+    updateProductWeight(productId, value) {
+      const updateProduct = {
+        waga_jednostkowa: value,
+      };
+
+      axios
+          .put(`http://localhost:3000/products/${productId}`, JSON.stringify(updateProduct), {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+          .then((response) => {
+            console.log('Zaktualizowano produkt:', response.data);
+            // After updating, refresh the list of all products
+            this.fetchAllProducts();
+          })
+          .catch((error) => {
+            console.error('Błąd:', error.response.data);
+          });
+    },
     getStatusLabel(status) {
       switch (status) {
         case 1:
@@ -280,10 +392,14 @@ export default {
     // Fetch unfulfilled orders when the component is mounted
     this.fetchUnfulfilledOrders();
     this.fetchAllOrders();
+    this.fetchAllProducts();
   },
 };
 </script>
 
 <style>
-/* Add styles if needed */
+ #update {
+   margin: 10px;
+   min-width: 200px;
+ }
 </style>
