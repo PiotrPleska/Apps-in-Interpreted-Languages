@@ -155,6 +155,8 @@
 };
 axios.post('http://localhost:3000/orders', data)
     .then(response => {
+    const responseDataString = JSON.stringify(response.data, null, 2);
+    alert('Odpowiedź z serwera:\n' + responseDataString);
         console.log('Odpowiedź z serwera:', response.data);
     })
     .catch(error => {
@@ -163,7 +165,7 @@ axios.post('http://localhost:3000/orders', data)
     }
       }
 
-      }
+      },
       
   },
 
