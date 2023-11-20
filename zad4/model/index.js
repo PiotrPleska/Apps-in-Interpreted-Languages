@@ -6,9 +6,6 @@ const mysql = require('mysql2');
 
 app.use(express.json());
 app.use(cors());
-
-
-
 app.listen(3000, () => {
     console.log('Serwer nasłuchuje na porcie 3000');
 });
@@ -100,10 +97,6 @@ app.post('/products', (req, res) => {
         return;
     }
 
-    if(Kategoria_idKategoria.type !== 'number') {
-        res.status(400).json({ error: 'ID kategorii musi być liczbą' });
-        return;
-    }
 
     if(Kategoria_idKategoria <= 0) {
         res.status(400).json({ error: 'ID kategorii musi być liczbą dodatnią' });
@@ -507,6 +500,10 @@ app.get('/products/order/:id_zamowienia', (req, res) => {
         res.json(results);
     });
 });
+
+
+
+
 
 
 app.use((req, res, next) => {

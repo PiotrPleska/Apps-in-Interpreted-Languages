@@ -29,6 +29,7 @@ const axios = require('axios');
 //     Kategoria_idKategoria: 15
 // };
 // axios.post('http://localhost:3000/products', JSON.stringify(newProduct), {
+//
 //         headers: {
 //             'Content-Type': 'application/json',
 //         },
@@ -99,19 +100,20 @@ const axios = require('axios');
 //
 //
 // 3.PATCH app_url/orders/id - zmiana stanu zamówienia o podanym identyfikatorze, dane w formacie JSON PATCH. Dopuszczalne są inne warianty, np. PUT app_url/orders/id z nowym stanem i pozostałymi parametrami zamówienia w ciele żądania.
-// const newState = {
-//     // numer_telefonu: '666-666-666',
-//     // nazwa_uzytkownika: 'Jane Doe',
-//     Stan_Zamowienia_idStan_Zamowienia: 4, // Nowy stan zamówienia
-// };
-// //
-// axios.patch(`http://localhost:3000/orders/1`, newState)
-//     .then(response => {
-//         console.log(response.data);
-//     })
-//     .catch(error => {
-//         console.error(error.response.data);
-//     });
+const newState = {
+    // numer_telefonu: '666-666-666',
+    nazwa_uzytkownika: 'Jane eeeeee',
+    Stan_Zamowienia_idStan_Zamowienia: 1, // Nowy stan zamówienia
+};
+//
+axios.patch(`http://localhost:3000/orders/1`, newState)
+    .then(response => {
+        console.log(newState)
+        console.log(response.data);
+    })
+    .catch(error => {
+        console.error(error.response.data);
+    });
 //
 //
 //
