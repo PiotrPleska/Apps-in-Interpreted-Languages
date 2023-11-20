@@ -65,7 +65,7 @@ export default {
     });
   },
   methods: {
-     async redirectToOrderForm() {
+      async redirectToOrderForm() {
       this.emitter.emit("orderedProducts", this.products_ordered);
        this.isOrderPlaced = true;
       this.$router.push({ name: 'OrderForm' });
@@ -108,6 +108,7 @@ export default {
       },
     },
   },
+
 };
 </script>
 

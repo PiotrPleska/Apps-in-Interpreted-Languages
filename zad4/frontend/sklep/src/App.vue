@@ -47,6 +47,25 @@ export default {
 
   mounted() {
     this.getProducts();
+    const newProduct = {
+    nazwa: 'Test',
+    opis: 'To jest przykladowy nowy produkt',
+    cena_jednostkowa: 1.99,
+    waga_jednostkowa: 0.5,
+    Kategoria_idKategoria: 1,
+};
+axios.post('http://localhost:3000/products', JSON.stringify(newProduct), {
+
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => {
+        console.log('Dodano nowy produkt:', response.data);
+    })
+    .catch(error => {
+        console.error('Błąd:', error.response);
+    });
   },
 };
 </script>
