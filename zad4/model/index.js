@@ -100,8 +100,8 @@ app.post('/products', (req, res) => {
         return;
     }
 
-    if(!Number.isInteger(Kategoria_idKategoria)) {
-        res.status(400).json({ error: 'ID kategorii musi być liczbą całkowitą' });
+    if(Kategoria_idKategoria.type !== 'number') {
+        res.status(400).json({ error: 'ID kategorii musi być liczbą' });
         return;
     }
 
@@ -189,10 +189,6 @@ app.put('/products/:id', (req, res) => {
     }
 
     if (Kategoria_idKategoria) {
-        if(!Number.isInteger(Kategoria_idKategoria)) {
-            res.status(400).json({ error: 'ID kategorii musi być liczbą całkowitą' });
-            return;
-        }
         if(Kategoria_idKategoria <= 0) {
             res.status(400).json({ error: 'ID kategorii musi być liczbą dodatnią' });
             return;
@@ -360,6 +356,11 @@ app.patch('/orders/:id', (req, res) => {
         return res.status(400).json({ error: 'Brak danych do aktualizacji' });
     }
 
+    // Check if the 'numer_telefonu' is a valid numeric value
+    if ('numer_telefonu' in newState && /[a-zA-Z]/.test(newState.numer_telefonu)) {
+        return res.status(400).json({ error: 'Numer telefonu nie może zawierać liter' });
+    }
+
     db.beginTransaction(err => {
         if (err) {
             return res.status(500).json({ error: 'Błąd transakcji' });
@@ -395,9 +396,6 @@ app.patch('/orders/:id', (req, res) => {
                 });
             }
 
-            if (/[a-zA-Z]/.test(newState.numer_telefonu)) {
-                return res.status(400).json({ error: 'Numer telefonu nie może zawierać liter' });
-            }
             // Przykładowe zapytanie do bazy danych, aby sprawdzić, czy nowy stan istnieje
             const checkQuery = 'SELECT * FROM stan_zamowienia WHERE idStan_Zamowienia = ?';
             db.query(checkQuery, [newState.Stan_Zamowienia_idStan_Zamowienia], (checkErr, checkResults) => {
@@ -488,6 +486,28 @@ app.get('/status', (req, res) => {
         res.json(results); // Zwróć wyniki z bazy danych jako JSON
     });
 });
+
+// 2. GET app_url/products/id_zamowienia - zwraca produkty w zamówieniu o konkretnym identyfikatorze
+app.get('/products/order/:id_zamowienia', (req, res) => {
+    const orderId = req.params.id_zamowienia;
+    const query = 'SELECT zamowienie_produkt.ilosc, produkt.nazwa AS nazwa_produktu, produkt.opis, produkt.cena_jednostkowa, produkt.waga_jednostkowa, produkt.Kategoria_idKategoria FROM zamowienie_produkt JOIN produkt ON zamowienie_produkt.Produkt_idProdukt = produkt.idProdukt WHERE zamowienie_produkt.Zamowienie_idZamowienie = ?';
+
+    db.query(query, [orderId], (err, results) => {
+        if (err) {
+            console.error('Błąd zapytania do bazy danych: ' + err.message);
+            res.status(500).json({error: 'Błąd zapytania do bazy danych'});
+            return;
+        }
+
+        if (results.length === 0) {
+            res.status(404).json({error: 'Zamówienie o podanym ID nie istnieje'});
+            return;
+        }
+
+        res.json(results);
+    });
+});
+
 
 app.use((req, res, next) => {
     res.status(404).send('Nie znaleziono strony ;((');
