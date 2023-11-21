@@ -150,7 +150,7 @@ export default {
       const updateProduct = {
         opis: value,
       };
-      const token = 'admin';
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE3MDA1OTI5NjIsImV4cCI6MTcwMDU5NjU2Mn0.2cQLc7IbFQaLJIF2xH6yNMhC4uBbIq5KUyX0SLjuiMc';
       console.log(token);
       axios
           .put(`http://localhost:3000/products/${productId}`, JSON.stringify(updateProduct), {
