@@ -9,20 +9,25 @@ app.use(cors());
 
 const jwt = require('jsonwebtoken');
 
+const secretKey = 'yourSecretKey';
+const token = jwt.sign({ user: 'admin' }, secretKey, { expiresIn: '1h' });
+
 // Middleware function to verify JWT token
 const verifyToken = (req, res, next) => {
-    const token = req.headers.authorization;
     console.log('Received Token:', token);
+
     if (!token) {
-        return res.status(401).json({ error: 'You cant modify the product' });
+        return res.status(401).json({ error: 'You can\'t modify the product' });
     }
 
-    jwt.verify(token, 'admin', (err, decoded) => {
+    jwt.verify(token, secretKey, { algorithms: ['HS256'] }, (err, decoded) => {
+        console.log('Decoded Token:', decoded);
+        console.log('Error:', err);
+
         if (err) {
             return res.status(401).json({ error: 'Unauthorized. Invalid token.' });
         }
 
-        // You can access the user information from decoded and use it in your route handler
         req.user = decoded.user;
         next();
     });

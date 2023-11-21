@@ -150,14 +150,14 @@ export default {
       const updateProduct = {
         opis: value,
       };
-      const token = this.password
-      console.log(token)
+      const token = 'admin';
+      console.log(token);
       axios
           .put(`http://localhost:3000/products/${productId}`, JSON.stringify(updateProduct), {
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `${token}` // Include the token in the Authorization header
-            }
+              Authorization: `Bearer ${token}`, // Include the token with the "Bearer" keyword
+            },
           })
           .then((response) => {
             console.log('Zaktualizowano produkt:', response.data);
