@@ -150,7 +150,7 @@ export default {
       const updateProduct = {
         opis: value,
       };
-      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE3MDA1OTI5NjIsImV4cCI6MTcwMDU5NjU2Mn0.2cQLc7IbFQaLJIF2xH6yNMhC4uBbIq5KUyX0SLjuiMc';
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE3MDA1OTY5MjZ9.yMqosDPS8-J_iM2Q_15HW2GMS-hOY3sWDQoBj4iksI0';
       console.log(token);
       axios
           .put(`http://localhost:3000/products/${productId}`, JSON.stringify(updateProduct), {

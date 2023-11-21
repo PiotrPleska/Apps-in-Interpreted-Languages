@@ -8,19 +8,18 @@ app.use(express.json());
 app.use(cors());
 
 const jwt = require('jsonwebtoken');
-
 const secretKey = 'yourSecretKey';
+const token = jwt.sign({user: "admin"}, secretKey);
 
 // Middleware function to verify JWT token
 const verifyToken = (req, res, next) => {
-    const tokenReceived = req.headers.authorization;
+    const tokenReceived = req.headers.authorization && req.headers.authorization.split(' ')[1];
     if (!tokenReceived) {
         return res.status(401).json({ error: 'You can\'t modify the product' });
     }
 
     jwt.verify(tokenReceived, secretKey, { algorithms: ['HS256'] }, (err, decoded) => {
         console.log('Decoded Token:', decoded);
-        console.log('Error:', err);
 
         if (err) {
             return res.status(401).json({ error: 'Unauthorized. Invalid token.' });
