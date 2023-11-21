@@ -6,6 +6,28 @@ const mysql = require('mysql2');
 
 app.use(express.json());
 app.use(cors());
+
+const jwt = require('jsonwebtoken');
+
+// Middleware function to verify JWT token
+const verifyToken = (req, res, next) => {
+    const token = req.headers.authorization;
+    console.log('Received Token:', token);
+    if (!token) {
+        return res.status(401).json({ error: 'You cant modify the product' });
+    }
+
+    jwt.verify(token, 'admin', (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ error: 'Unauthorized. Invalid token.' });
+        }
+
+        // You can access the user information from decoded and use it in your route handler
+        req.user = decoded.user;
+        next();
+    });
+};
+
 app.listen(3000, () => {
     console.log('Serwer nasłuchuje na porcie 3000');
 });
@@ -125,7 +147,7 @@ app.post('/products', (req, res) => {
 
 
 // 4.PUT app_url/products/id - aktualizuje produkt o konkretnym identyfikatorze, pozostałe parametry produktu w ciele żądania. Można też zrobić PUT app_url/products ze wszystkimi parametrami w ciele żądania.
-app.put('/products/:id', (req, res) => {
+app.put('/products/:id',verifyToken, (req, res) => {
     const productId = req.params.id;
     const {nazwa, opis, cena_jednostkowa, waga_jednostkowa, Kategoria_idKategoria} = req.body;
 
@@ -341,7 +363,7 @@ app.post('/orders', (req, res) => {
 
 
 // 3.PATCH app_url/orders/id - zmiana stanu zamówienia o podanym identyfikatorze, dane w formacie JSON PATCH. Dopuszczalne są inne warianty, np. PUT app_url/orders/id z nowym stanem i pozostałymi parametrami zamówienia w ciele żądania.
-app.patch('/orders/:id', (req, res) => {
+app.patch('/orders/:id',verifyToken, (req, res) => {
     const orderId = parseInt(req.params.id);
     const newState = req.body; // Przyjmujemy dane w formacie JSON PATCH lub JSON PUT
 

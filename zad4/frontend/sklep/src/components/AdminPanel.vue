@@ -150,12 +150,14 @@ export default {
       const updateProduct = {
         opis: value,
       };
-
+      const token = this.password
+      console.log(token)
       axios
           .put(`http://localhost:3000/products/${productId}`, JSON.stringify(updateProduct), {
             headers: {
               'Content-Type': 'application/json',
-            },
+              'Authorization': `${token}` // Include the token in the Authorization header
+            }
           })
           .then((response) => {
             console.log('Zaktualizowano produkt:', response.data);
@@ -170,12 +172,14 @@ export default {
       const updateProduct = {
         cena_jednostkowa: value,
       };
-
+      console.log(this.password)
+      const token = this.password
       axios
           .put(`http://localhost:3000/products/${productId}`, JSON.stringify(updateProduct), {
             headers: {
               'Content-Type': 'application/json',
-            },
+              'Authorization': `Bearer ${token}` // Include the token in the Authorization header
+            }
           })
           .then((response) => {
             console.log('Zaktualizowano produkt:', response.data);
@@ -190,12 +194,13 @@ export default {
       const updateProduct = {
         waga_jednostkowa: value,
       };
-
+      const token = this.password
       axios
           .put(`http://localhost:3000/products/${productId}`, JSON.stringify(updateProduct), {
             headers: {
               'Content-Type': 'application/json',
-            },
+              'Authorization': `Bearer ${token}` // Include the token in the Authorization header
+            }
           })
           .then((response) => {
             console.log('Zaktualizowano produkt:', response.data);
@@ -361,8 +366,12 @@ export default {
       const newState = {
         Stan_Zamowienia_idStan_Zamowienia: newStatus,
       };
-
-      axios.patch(`http://localhost:3000/orders/${orderId}`, newState)
+      const token = this.password
+      axios.patch(`http://localhost:3000/orders/${orderId}`, newState,{
+        headers:{
+          'Authorization': `Bearer ${token}`
+        }
+      })
           .then(response => {
             if (response.data && response.data.message) {
               // Assuming you want to update the local state after a successful API call
